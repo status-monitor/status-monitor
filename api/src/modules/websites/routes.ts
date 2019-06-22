@@ -26,7 +26,6 @@ export const loadWebsitesRoutes = (router: Router) => {
 
           website.status = {
             duration: status.duration,
-            isAlive: status.isAlive,
             uptime,
           };
           return website;

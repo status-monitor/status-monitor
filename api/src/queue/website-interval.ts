@@ -1,7 +1,8 @@
 import { ConsumeMessage } from 'amqplib';
 import { rabbitMQ } from '@api/db/rabbitmq';
-import { findOneWebsiteById } from '@api/modules/websites/dao';
+import { findOneWebsiteById, patchOneWebsite } from '@api/modules/websites/dao';
 import { checkWebsite } from '@api/modules/healthcheck/services';
+import { notifyStatusChange } from '@api/modules/notify/service';
 // import { findOneBuildById } from '@api/modules/builds/dao';
 // import { continueWorkflow } from '@api/modules/builds/service';
 
@@ -24,7 +25,13 @@ const listen = async () => {
         clearInterval(interval);
         return;
       }
-      checkWebsite(website);
+      const isAlive = await checkWebsite(website);
+      if (website.isAlive !== isAlive) {
+        patchOneWebsite(website._id, {
+          isAlive,
+        });
+        notifyStatusChange(isAlive, website);
+      }
     };
 
     findAndCheckWebsite();

@@ -27,7 +27,6 @@ class RabbitMQ {
       });
 
       this.db = await connection.createChannel();
-      // this.db.prefetch(5);
       this.isConnected = true;
 
       console.debug('RabbitMQ connected');

@@ -4,9 +4,9 @@ export interface Website {
   host: string;
   path: string;
   name: string;
+  isAlive?: boolean;
 
   status?: {
-    isAlive: boolean;
     duration: number;
     uptime: Date;
   };

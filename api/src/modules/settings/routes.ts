@@ -8,7 +8,7 @@ export const loadSettingsRoutes = (router: Router) => {
     res.send();
   });
 
-  router.get('/settings', async (req, res) => {
+  router.get('/settings', async (_, res) => {
     const settings = await findOneSettings();
 
     res.send({ settings });

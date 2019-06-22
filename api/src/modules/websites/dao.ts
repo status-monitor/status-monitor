@@ -22,6 +22,17 @@ export const insertOneWebsite = async (website: Website): Promise<Website> => {
     name: website.name,
     path: website.path,
     protocol: website.protocol,
+    isAlive: true,
   });
   return response.ops[0];
+};
+
+export const patchOneWebsite = async (_id: string, website: Partial<Website>): Promise<void> => {
+  await mongo.waitReady();
+  await mongo.db.collection('websites').updateOne(
+    { _id: new ObjectId(_id) },
+    {
+      $set: website,
+    },
+  );
 };

@@ -31,6 +31,18 @@ const IndexPage: StatelessPage = observer(
         >
           App.Ocean.io
         </button>
+        <button
+          onClick={() =>
+            websitesStore.addWebsite({
+              host: 'localhost:8000',
+              name: 'Localhost',
+              path: '/',
+              protocol: 'http',
+            })
+          }
+        >
+          Localhost
+        </button>
         {websitesStore.websites.map(website => (
           <WebsiteStatus website={website} key={website._id} />
         ))}

@@ -2,8 +2,6 @@ import * as Influx from 'influx';
 import { config } from '@api/config';
 
 class InfluxDb {
-  private databaseName = 'default5';
-
   public db = new Influx.InfluxDB({
     host: config.influxDb.host,
     database: config.influxDb.database,

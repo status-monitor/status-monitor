@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { getLastFailedHealthcheckStatus, getFirstHealthcheckStatus, writeHealthcheckStatus } from './dao';
 import { Website } from '@common/models/website';
 
-export const checkWebsite = async (website: Website) => {
+export const checkWebsite = async (website: Website): Promise<boolean> => {
   const websiteUrl = `${website.protocol}://${website.host}${website.path}`;
   try {
     const healthCheck = await httpCallCheck(websiteUrl);
@@ -12,9 +12,11 @@ export const checkWebsite = async (website: Website) => {
     }
     writeHealthcheckStatus({ website: website._id, location: 'Self hosted', isAlive: true, duration: healthCheck.ms });
     console.log(healthCheck);
+    return true;
   } catch (e) {
     console.log(e.message);
     writeHealthcheckStatus({ website: website._id, location: 'Self hosted', isAlive: false });
+    return false;
   }
 };
 

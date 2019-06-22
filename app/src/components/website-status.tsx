@@ -71,10 +71,10 @@ export const WebsiteStatus: React.FC<{ website: Website }> = ({ website }): Reac
   return (
     <Card onClick={() => Router.push(`/website?id=${website._id}`)}>
       <StatusLineDiv>
-        <StatusIndicatorDiv status={website.status && website.status.isAlive ? 'success' : 'error'} />
+        <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
         <StatusNameDiv>{website.name}</StatusNameDiv>
-        <StatusDurationDiv>{website.status && website.status.duration}ms</StatusDurationDiv>
-        <StatusUptimeDiv>{website.status && getFormattedUptime(website.status.uptime)} up</StatusUptimeDiv>
+        {website.status && <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>}
+        {website.status && <StatusUptimeDiv>{getFormattedUptime(website.status.uptime)} up</StatusUptimeDiv>}
       </StatusLineDiv>
     </Card>
   );
