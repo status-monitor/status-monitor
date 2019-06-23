@@ -4,6 +4,7 @@ import { Container } from '@app/shared/container';
 import { useWebsitesStore } from '@app/stores';
 import { WebsiteStatus } from '@app/components/website-status';
 import { observer } from 'mobx-react-lite';
+import { Button } from '@app/shared/button';
 
 const IndexPage: StatelessPage = observer(
   (): ReactElement => {
@@ -14,12 +15,13 @@ const IndexPage: StatelessPage = observer(
 
     return (
       <Container>
-        <button
+        <Button
           onClick={() => websitesStore.addWebsite({ host: 'ocean.io', name: 'Ocean', path: '/', protocol: 'http' })}
         >
           Ocean.io
-        </button>
-        <button
+        </Button>{' '}
+        <Button
+          theme="light"
           onClick={() =>
             websitesStore.addWebsite({
               host: 'app.ocean.io',
@@ -30,8 +32,8 @@ const IndexPage: StatelessPage = observer(
           }
         >
           App.Ocean.io
-        </button>
-        <button
+        </Button>{' '}
+        <Button
           onClick={() =>
             websitesStore.addWebsite({
               host: 'localhost:8000',
@@ -42,7 +44,7 @@ const IndexPage: StatelessPage = observer(
           }
         >
           Localhost
-        </button>
+        </Button>
         {websitesStore.websites.map(website => (
           <WebsiteStatus website={website} key={website._id} />
         ))}
