@@ -27,8 +27,15 @@ const SettingsPage: StatelessPage = observer(
         <Card>
           <Container>
             <h1>
-              Slack integration <small>https://api.slack.com/incoming-webhooks</small>
+              Slack integration <br />
+              <small>
+                <a href="https://api.slack.com/incoming-webhooks" target="_blank" rel="noopener noreferrer">
+                  https://api.slack.com/incoming-webhooks
+                </a>
+              </small>
             </h1>
+
+            <br />
             <Input label="Webhook url" type="text" {...bindSlackWebhook} />
             <br />
             <Input label="Slack channel" type="text" {...bindSlackChannel} />

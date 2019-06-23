@@ -73,7 +73,9 @@ export const WebsiteStatus: React.FC<{ website: Website }> = ({ website }): Reac
       <StatusLineDiv>
         <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
         <StatusNameDiv>{website.name}</StatusNameDiv>
-        {website.status && <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>}
+        {website.status && website.status.duration && (
+          <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>
+        )}
         {website.status && <StatusUptimeDiv>{getFormattedUptime(website.status.uptime)} up</StatusUptimeDiv>}
       </StatusLineDiv>
     </Card>
