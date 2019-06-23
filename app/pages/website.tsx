@@ -2,12 +2,16 @@ import React, { ReactElement } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Website } from '@common/models/website';
 import { Button } from '@app/shared/button';
+import { useWebsitesStore } from '@app/stores';
+import Router from 'next/router';
 
 interface WebsitePageProps {
   website?: Website;
 }
 
 const WebsitePage: StatelessPage<WebsitePageProps> = ({ website }): ReactElement => {
+  const websitesStore = useWebsitesStore();
+
   if (!website) {
     return null;
   }
@@ -15,7 +19,13 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ website }): ReactElement
   return (
     <>
       <h1>{website.name}</h1>
-      <Button onClick={() => {}} theme="danger">
+      <Button
+        onClick={() => {
+          websitesStore.removeWebsite(website._id);
+          Router.push('/');
+        }}
+        theme="danger"
+      >
         Delete website
       </Button>
     </>

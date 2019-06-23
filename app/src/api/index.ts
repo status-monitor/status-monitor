@@ -17,6 +17,11 @@ export const postWebsiteApi = async (website: Website): Promise<{ website: Websi
   return res.data;
 };
 
+export const deleteWebsiteApi = async (websiteId: string): Promise<void> => {
+  const res = await axios.delete(`http://localhost:8080/websites?_id=${websiteId}`);
+  return res.data;
+};
+
 export const putSettingsApi = async (settings: Partial<Settings>): Promise<void> => {
   const res = await axios.put('http://localhost:8080/settings', settings);
   return res.data;

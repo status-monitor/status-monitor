@@ -36,3 +36,8 @@ export const patchOneWebsite = async (_id: string, website: Partial<Website>): P
     },
   );
 };
+
+export const deleteOneWebsiteById = async (id: string): Promise<void> => {
+  await mongo.waitReady();
+  await mongo.db.collection('websites').deleteOne({ _id: new ObjectId(id) });
+};

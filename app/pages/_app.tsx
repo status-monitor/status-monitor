@@ -16,7 +16,7 @@ class MyApp extends App<MyAppProps> {
 
     const rootStore = initializeStore();
 
-    await rootStore.websitesStore.init();
+    await rootStore.websitesStore.getWebsites(true);
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx, rootStore);

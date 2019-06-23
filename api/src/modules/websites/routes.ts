@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getLastHealthcheckStatus } from '@api/modules/healthcheck/dao';
 import { getUptime } from '@api/modules/healthcheck/services';
-import { findAllWebsites } from './dao';
+import { findAllWebsites, deleteOneWebsiteById } from './dao';
 import { createWebsite } from './service';
 
 export const loadWebsitesRoutes = (router: Router) => {
@@ -32,5 +32,11 @@ export const loadWebsitesRoutes = (router: Router) => {
         }),
       ),
     });
+  });
+
+  router.delete('/websites', async (req, res) => {
+    await deleteOneWebsiteById(req.query._id);
+
+    res.send();
   });
 };

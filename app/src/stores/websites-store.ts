@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { getWebsitesApi, postWebsiteApi } from '../api';
+import { getWebsitesApi, postWebsiteApi, deleteWebsiteApi } from '../api';
 import { RootStore } from './root-store';
 import { Website } from '@common/models/website';
 
@@ -16,7 +16,7 @@ export class WebsitesStore {
 
     if (process.browser) {
       setInterval(() => {
-        this.init();
+        this.getWebsites();
       }, 10000);
     }
   }
@@ -37,7 +37,15 @@ export class WebsitesStore {
     this.websites = [...this.websites, result.website];
   };
 
-  public async init() {
+  public removeWebsite = async (websiteId: string) => {
+    this.websites.splice(this.websites.findIndex(w => w._id === websiteId), 1);
+    await deleteWebsiteApi(websiteId);
+  };
+
+  public async getWebsites(dontOverride?: boolean) {
+    if (this.websites && dontOverride) {
+      return;
+    }
     const { websites } = await getWebsitesApi();
     this.websites = websites;
   }
