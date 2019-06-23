@@ -4,13 +4,13 @@ import { Website } from '@common/models/website';
 import { Card } from '@app/shared/card';
 import { getFormattedUptime } from '@app/utils/uptime';
 import Router from 'next/router';
+import { green, red } from '@app/styles/variables';
 
 const StatusLineDiv = styled.div`
   display: flex;
   flex-direction: row;
   height: 60px;
   line-height: 60px;
-  color: #939abc;
   padding: 0 1rem;
   cursor: pointer;
 `;
@@ -23,20 +23,19 @@ const StatusIndicatorDiv = styled.div`
   &:before {
     content: ' ';
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 14px;
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
     margin-right: 1rem;
-    border: 1px solid #000;
+    position: relative;
+    top: 3px;
   }
 
   ${({ status }: StatusIndicatorDivProps) =>
     status === 'success' &&
     css`
       &:before {
-        background-color: #29c0b1;
-        border-color: #28bac0;
-        box-shadow: 0px 0px 4px 1px #29c0b1;
+        background-color: ${green};
       }
     `}
 
@@ -44,9 +43,7 @@ const StatusIndicatorDiv = styled.div`
     status === 'error' &&
     css`
       &:before {
-        background-color: #ff3366;
-        border-color: #ff3239;
-        box-shadow: 0px 0px 4px 1px #ff3366;
+        background-color: ${red};
       }
     `}
 `;

@@ -1,14 +1,14 @@
 import React, { ReactElement, useState, FunctionComponent, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { textColor } from '@app/styles/variables';
+import { textColor, inputBackground, inputBorderColor, inputActiveBorderColor } from '@app/styles/variables';
 
 const StyledInput = styled.input`
-  border: 1px solid rgba(46, 50, 74, 0.7);
+  border: 1px solid ${inputBorderColor};
   font-weight: 400;
   font-size: 0.875rem;
   box-shadow: none;
   outline: 0;
-  background-color: #2b2e4c;
+  background-color: ${inputBackground};
   padding: 14px 22px;
   width: 100%;
   display: block;
@@ -16,7 +16,7 @@ const StyledInput = styled.input`
   margin-bottom: 1rem;
 
   &:focus {
-    border-color: #80bdff;
+    border-color: ${inputActiveBorderColor};
   }
 `;
 

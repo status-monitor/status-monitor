@@ -22,7 +22,9 @@ const IndexPage: StatelessPage = observer(
         <WebsiteDialog
           open={websiteDialogOpen}
           onClose={values => {
-            websitesStore.addWebsite(values);
+            if (values) {
+              websitesStore.addWebsite(values);
+            }
             onCloseWebsiteDialog();
           }}
         />

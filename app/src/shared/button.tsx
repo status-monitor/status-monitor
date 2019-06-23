@@ -1,5 +1,16 @@
 import React, { ReactElement, FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
+import {
+  primary,
+  primaryButtonBackground,
+  primaryButtonHoverBackground,
+  primaryButtonActiveBackground,
+  primaryButtonFocusShadowColor,
+  dangerButtonHoverBackground,
+  dangerButtonBackground,
+  dangerButtonActiveBackground,
+  dangerButtonFocusShadowColor,
+} from '@app/styles/variables';
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -26,21 +37,21 @@ const StyledButton = styled.button`
     theme === 'primary' &&
     css`
       color: #fff;
-      background-color: #6201ed;
-      border-color: #6201ed;
+      background-color: ${primaryButtonBackground};
+      border-color: ${primaryButtonBackground};
 
       &:hover {
-        background-color: #5201c7;
-        border-color: #4d01ba;
+        background-color: ${primaryButtonHoverBackground};
+        border-color: ${primaryButtonHoverBackground};
       }
 
       &:not(:disabled):not(.disabled):active {
-        background-color: #4d01ba;
-        border-color: #4801ae;
+        background-color: ${primaryButtonActiveBackground};
+        border-color: ${primaryButtonActiveBackground};
       }
 
       &:not(:disabled):not(.disabled):active:focus {
-        box-shadow: 0 0 0 0.2rem rgba(122, 39, 240, 0.5);
+        box-shadow: 0 0 0 0.2rem ${primaryButtonFocusShadowColor};
       }
     `}
   ${({ theme }: ButtonProps) =>
@@ -69,21 +80,21 @@ const StyledButton = styled.button`
     theme === 'danger' &&
     css`
       color: white;
-      background-color: #ff3366;
-      border-color: #ff3366;
+      background-color: ${dangerButtonBackground};
+      border-color: ${dangerButtonBackground};
 
       &:hover {
-        background-color: #ff0d49;
-        border-color: #ff0040;
+        background-color: ${dangerButtonHoverBackground};
+        border-color: ${dangerButtonHoverBackground};
       }
 
       &:not(:disabled):not(.disabled):active {
-        background-color: #ff0040;
-        border-color: #f2003d;
+        background-color: ${dangerButtonActiveBackground};
+        border-color: ${dangerButtonActiveBackground};
       }
 
       &:not(:disabled):not(.disabled):active:focus {
-        box-shadow: 0 0 0 0.2rem rgba(255, 82, 125, 0.5);
+        box-shadow: 0 0 0 0.2rem ${dangerButtonFocusShadowColor};
       }
     `};
 `;

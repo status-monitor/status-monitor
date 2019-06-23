@@ -10,7 +10,6 @@ const AppBar = styled.section`
   left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 0 5px rgba(18, 23, 39, 0.5);
   z-index: 1000;
 
   a {
