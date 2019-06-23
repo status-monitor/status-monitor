@@ -19,38 +19,14 @@ const IndexPage: StatelessPage = observer(
 
     return (
       <Container>
-        <WebsiteDialog open={websiteDialogOpen} onClose={onCloseWebsiteDialog} />
+        <WebsiteDialog
+          open={websiteDialogOpen}
+          onClose={values => {
+            websitesStore.addWebsite(values);
+            onCloseWebsiteDialog();
+          }}
+        />
         <Button onClick={openWebsiteDialog}>Add a new website</Button>
-        {/* <Button
-          onClick={() => websitesStore.addWebsite({ host: 'ocean.io', name: 'Ocean', path: '/', protocol: 'http' })}
-        >
-          Ocean.io
-        </Button>{' '}
-        <Button
-          theme="light"
-          onClick={() =>
-            websitesStore.addWebsite({
-              host: 'app.ocean.io',
-              name: 'App Ocean',
-              path: '/healthcheck',
-              protocol: 'http',
-            })
-          }
-        >
-          App.Ocean.io
-        </Button>{' '}
-        <Button
-          onClick={() =>
-            websitesStore.addWebsite({
-              host: 'localhost:8000',
-              name: 'Localhost',
-              path: '/',
-              protocol: 'http',
-            })
-          }
-        >
-          Localhost
-        </Button> */}
         {websitesStore.websites.map(website => (
           <WebsiteStatus website={website} key={website._id} />
         ))}
