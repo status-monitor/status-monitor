@@ -13,6 +13,7 @@ const StyledInput = styled.input`
   width: 100%;
   display: block;
   color: ${textColor};
+  margin-bottom: 1rem;
 
   &:focus {
     border-color: #80bdff;
@@ -30,10 +31,12 @@ interface InputProps {
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
-  type: string;
+  type?: string;
 }
 
-export const useInput = (initialValue: string = ''): [string, any, any] => {
+export const useInput = (
+  initialValue: string = '',
+): [string, { value: string; onChange: (event: ChangeEvent<HTMLInputElement>) => void }, (value: string) => void] => {
   const [value, setValue] = useState(initialValue);
 
   return [

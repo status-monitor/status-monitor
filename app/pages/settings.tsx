@@ -36,9 +36,9 @@ const SettingsPage: StatelessPage = observer(
             </h1>
 
             <br />
-            <Input label="Webhook url" type="text" {...bindSlackWebhook} />
+            <Input label="Webhook url" {...bindSlackWebhook} />
             <br />
-            <Input label="Slack channel" type="text" {...bindSlackChannel} />
+            <Input label="Slack channel" {...bindSlackChannel} />
             <Button
               onClick={() => {
                 putSettingsApi({
