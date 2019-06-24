@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
+import Color from 'color';
 import { rem } from '@app/styles/mixins';
-import { backgroundColor, textColor } from '@app/styles/variables';
+import { backgroundColor, textColor, primary } from '@app/styles/variables';
 
 const displayByScale = keyframes`
     from {
@@ -68,6 +69,22 @@ export const OverlayContainerDiv = styled.div`
       0 ${rem(24)} ${rem(38)} ${rem(3)} rgba(0, 0, 0, 0.14), 0 ${rem(9)} ${rem(46)} ${rem(8)} rgba(0, 0, 0, 0.12);
     animation: ${displayByScale} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: ${textColor};
+  }
+
+  input,
+  select {
+    background: ${Color(primary)
+      .darken(0.4)
+      .hsl()
+      .string()};
+    border-color: ${Color(primary)
+      .darken(0.8)
+      .hsl()
+      .string()};
+
+    &:focus {
+      border-color: #80bdff;
+    }
   }
 `;
 
