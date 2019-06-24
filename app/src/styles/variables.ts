@@ -19,15 +19,15 @@ export const appBarColor = 'white';
 export const cardBackground = appBarBackground;
 
 // FORM
-export const inputBackground = Color(primary)
-  .darken(0.4)
+export const formElementBackground = Color(primary)
+  // .darken(0.4)
   .hsl()
   .string();
-export const inputBorderColor = Color(primary)
+export const formElementBorderColor = Color(primary)
   .darken(0.8)
   .hsl()
   .string();
-export const inputActiveBorderColor = '#80bdff';
+export const formElementActiveBorderColor = '#80bdff';
 
 // BUTTON
 export const primaryButtonBackground = primary;

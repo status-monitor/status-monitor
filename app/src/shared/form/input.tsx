@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { StyledLabel, StyledFormElement } from './_styles';
 
 const StyledInput = styled(StyledFormElement)`
-  padding: 14px 22px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 `;
 
 interface InputProps {

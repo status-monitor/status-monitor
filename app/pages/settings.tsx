@@ -10,8 +10,8 @@ import { useFormValue } from '@app/shared/form/hooks';
 
 const SettingsPage: StatelessPage = observer(
   (): ReactElement => {
-    const [slackWebhook, bindSlackWebhook, setSlackWebhook] = useFormValue<string>();
-    const [slackChannel, bindSlackChannel, setSlackChannel] = useFormValue<string>();
+    const [slackWebhook, bindSlackWebhook, setSlackWebhook] = useFormValue<string>('');
+    const [slackChannel, bindSlackChannel, setSlackChannel] = useFormValue<string>('');
 
     useEffect(() => {
       getSettingsApi().then(({ settings }) => {
@@ -28,7 +28,7 @@ const SettingsPage: StatelessPage = observer(
         <Card>
           <Container>
             <h1>
-              Slack integration <br />
+              Slack integration{' '}
               <small>
                 <a href="https://api.slack.com/incoming-webhooks" target="_blank" rel="noopener noreferrer">
                   https://api.slack.com/incoming-webhooks

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { inputBorderColor, inputBackground, textColor, inputActiveBorderColor } from '@app/styles/variables';
+import {
+  formElementBorderColor,
+  formElementBackground,
+  textColor,
+  formElementActiveBorderColor,
+} from '@app/styles/variables';
 
 export const StyledLabel = styled.label`
   font-size: 0.875rem;
@@ -9,18 +14,20 @@ export const StyledLabel = styled.label`
 `;
 
 export const StyledFormElement = styled.input`
-  border: 1px solid ${inputBorderColor};
+  border: 1px solid ${formElementBorderColor};
   font-weight: 400;
   font-size: 0.875rem;
   box-shadow: none;
   outline: 0;
-  background-color: ${inputBackground};
+  background-color: ${formElementBackground};
   width: 100%;
   display: block;
   color: ${textColor};
   margin-bottom: 1rem;
+  padding-left: 14px;
+  padding-right: 14px;
 
   &:focus {
-    border-color: ${inputActiveBorderColor};
+    border-color: ${formElementActiveBorderColor};
   }
 `;
