@@ -14,10 +14,10 @@ interface WebsiteDialogProps {
 }
 
 export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose, website }): ReactElement => {
-  const [name, bindName] = useFormValue<string>(website ? website.name : null);
+  const [name, bindName] = useFormValue<string>(website ? website.name : '');
   const [path, bindPath] = useFormValue<string>(website ? website.path : '/');
   const [protocol, bindProtocol] = useFormValue<Website['protocol']>(website ? website.protocol : 'http');
-  const [host, bindHost] = useFormValue<string>(website ? website.host : null);
+  const [host, bindHost] = useFormValue<string>(website ? website.host : '');
 
   return (
     <Dialog isOpen={open} onClose={onClose}>
