@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react';
 import { Dialog, DialogFooter, DialogHeader, DialogBody } from '@app/shared/dialog';
 import { Button } from '@app/shared/button';
-import { useInput, Input } from '@app/shared/form/input';
+import { Input } from '@app/shared/form/input';
 import { Flex } from '@app/shared/flex';
 import { Website } from '@common/models/website';
 import { Select } from '@app/shared/form/select';
+import { useFormValue } from '@app/shared/form/hooks';
 
 interface WebsiteDialogProps {
   open: boolean;
@@ -12,10 +13,10 @@ interface WebsiteDialogProps {
 }
 
 export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose }): ReactElement => {
-  const [name, bindName] = useInput();
-  const [path, bindPath] = useInput('/');
-  const [protocol, bindProtocol] = useInput('http');
-  const [host, bindHost] = useInput();
+  const [name, bindName] = useFormValue<string>();
+  const [path, bindPath] = useFormValue<string>('/');
+  const [protocol, bindProtocol] = useFormValue<Website['protocol']>('http');
+  const [host, bindHost] = useFormValue<string>();
 
   return (
     <Dialog isOpen={open} onClose={onClose}>

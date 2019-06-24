@@ -7,28 +7,11 @@ const StyledInput = styled(StyledFormElement)`
 `;
 
 interface InputProps {
-  value?: string;
+  value?: any;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   type?: string;
 }
-
-export const useInput = (
-  initialValue: string = '',
-): [string, { value: string; onChange: (event: ChangeEvent<HTMLInputElement>) => void }, (value: string) => void] => {
-  const [value, setValue] = useState(initialValue);
-
-  return [
-    value,
-    {
-      value,
-      onChange: (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-      },
-    },
-    setValue,
-  ];
-};
 
 export const Input: FunctionComponent<InputProps> = ({ type, value, onChange, label }): ReactElement => {
   return (

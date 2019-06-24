@@ -1,16 +1,17 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Container } from '@app/shared/container';
 import { observer } from 'mobx-react-lite';
 import { Card } from '@app/shared/card';
-import { Input, useInput } from '@app/shared/form/input';
+import { Input } from '@app/shared/form/input';
 import { putSettingsApi, getSettingsApi } from '@app/api';
 import { Button } from '@app/shared/button';
+import { useFormValue } from '@app/shared/form/hooks';
 
 const SettingsPage: StatelessPage = observer(
   (): ReactElement => {
-    const [slackWebhook, bindSlackWebhook, setSlackWebhook] = useInput();
-    const [slackChannel, bindSlackChannel, setSlackChannel] = useInput();
+    const [slackWebhook, bindSlackWebhook, setSlackWebhook] = useFormValue<string>();
+    const [slackChannel, bindSlackChannel, setSlackChannel] = useFormValue<string>();
 
     useEffect(() => {
       getSettingsApi().then(({ settings }) => {
