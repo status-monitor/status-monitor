@@ -7,6 +7,7 @@ import { Container } from '@app/shared/container';
 import { getWebsiteUrl } from '@common/utils/website';
 import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
+import { Flex, FlexRow } from '@app/shared/flex';
 
 interface WebsitePageProps {
   id: string;
@@ -34,21 +35,26 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
           onCloseWebsiteDialog();
         }}
       />
-      <h1>
-        {website.name} <small>{getWebsiteUrl(website)}</small>
-      </h1>
-      <Button onClick={openWebsiteDialog}>Edit</Button>{' '}
-      <Button
-        onClick={() => {
-          confirmStore.confirm(`Are you sure to delete ${website.name} ?`, () => {
-            websitesStore.removeWebsite(website._id);
-            Router.push('/');
-          });
-        }}
-        theme="danger"
-      >
-        Delete website
-      </Button>
+      <FlexRow>
+        <h1>
+          {website.name} <small>{getWebsiteUrl(website)}</small>
+        </h1>
+        <Flex></Flex>
+        <Button onClick={openWebsiteDialog} style={{ marginRight: 5 }}>
+          Edit
+        </Button>
+        <Button
+          onClick={() => {
+            confirmStore.confirm(`Are you sure to delete ${website.name} ?`, () => {
+              websitesStore.removeWebsite(website._id);
+              Router.push('/');
+            });
+          }}
+          theme="light"
+        >
+          Delete
+        </Button>
+      </FlexRow>
     </Container>
   );
 };

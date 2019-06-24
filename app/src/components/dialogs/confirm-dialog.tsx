@@ -12,7 +12,9 @@ export const ConfirmDialog: React.FC = observer(
     return (
       <Dialog isOpen={confirmStore.isOpen} onClose={confirmStore.onCancel}>
         <DialogHeader>Confirm</DialogHeader>
-        <DialogBody withPadding={true}>{confirmStore.text}</DialogBody>
+        <DialogBody withPadding={true}>
+          <p>{confirmStore.text}</p>
+        </DialogBody>
         <DialogFooter>
           <Flex />
           <Button onClick={confirmStore.onCancel} theme="light">

@@ -1,7 +1,6 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { ReactElement, FunctionComponent, CSSProperties } from 'react';
 import styled, { css } from 'styled-components';
 import {
-  primary,
   primaryButtonBackground,
   primaryButtonHoverBackground,
   primaryButtonActiveBackground,
@@ -102,11 +101,12 @@ const StyledButton = styled.button`
 interface ButtonProps {
   onClick: () => void;
   theme?: 'primary' | 'light' | 'danger';
+  style?: CSSProperties;
 }
 
-export const Button: FunctionComponent<ButtonProps> = ({ children, onClick, theme }): ReactElement => {
+export const Button: FunctionComponent<ButtonProps> = ({ children, onClick, theme, style }): ReactElement => {
   return (
-    <StyledButton onClick={onClick} theme={theme || 'primary'}>
+    <StyledButton onClick={onClick} theme={theme || 'primary'} style={style}>
       {children}
     </StyledButton>
   );
