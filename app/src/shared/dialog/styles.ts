@@ -33,7 +33,7 @@ export const OverlayContainerDiv = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(98, 1, 237, 0.5);
+    background-color: rgba(76, 65, 139, 0.5);
     z-index: 1000;
     animation: ${fadeIn} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
