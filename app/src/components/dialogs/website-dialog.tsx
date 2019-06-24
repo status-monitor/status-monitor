@@ -8,15 +8,16 @@ import { Select } from '@app/shared/form/select';
 import { useFormValue } from '@app/shared/form/hooks';
 
 interface WebsiteDialogProps {
+  website?: Website;
   open: boolean;
   onClose: (values?: Website) => void;
 }
 
-export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose }): ReactElement => {
-  const [name, bindName] = useFormValue<string>();
-  const [path, bindPath] = useFormValue<string>('/');
-  const [protocol, bindProtocol] = useFormValue<Website['protocol']>('http');
-  const [host, bindHost] = useFormValue<string>();
+export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose, website }): ReactElement => {
+  const [name, bindName] = useFormValue<string>(website ? website.name : null);
+  const [path, bindPath] = useFormValue<string>(website ? website.path : '/');
+  const [protocol, bindProtocol] = useFormValue<Website['protocol']>(website ? website.protocol : 'http');
+  const [host, bindHost] = useFormValue<string>(website ? website.host : null);
 
   return (
     <Dialog isOpen={open} onClose={onClose}>
@@ -33,7 +34,7 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose }): 
       </DialogBody>
       <DialogFooter>
         <Flex />
-        <Button onClick={() => onClose({ name, path, protocol, host })}>Add</Button>
+        <Button onClick={() => onClose({ name, path, protocol, host })}>{website ? 'Edit' : 'Add'}</Button>
       </DialogFooter>
     </Dialog>
   );

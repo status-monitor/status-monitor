@@ -2,9 +2,10 @@ import request from 'request-promise-native';
 import * as moment from 'moment';
 import { getLastFailedHealthcheckStatus, getFirstHealthcheckStatus, writeHealthcheckStatus } from './dao';
 import { Website } from '@common/models/website';
+import { getWebsiteUrl } from '@common/utils/website';
 
 export const checkWebsite = async (website: Website): Promise<boolean> => {
-  const websiteUrl = `${website.protocol}://${website.host}${website.path}`;
+  const websiteUrl = getWebsiteUrl(website);
   try {
     const healthCheck = await httpCallCheck(websiteUrl);
     if (healthCheck.status !== 200) {

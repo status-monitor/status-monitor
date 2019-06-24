@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getLastHealthcheckStatus } from '@api/modules/healthcheck/dao';
 import { getUptime } from '@api/modules/healthcheck/services';
-import { findAllWebsites, deleteOneWebsiteById } from './dao';
+import { findAllWebsites, deleteOneWebsiteById, patchOneWebsite } from './dao';
 import { createWebsite } from './service';
 
 export const loadWebsitesRoutes = (router: Router) => {
@@ -11,6 +11,12 @@ export const loadWebsitesRoutes = (router: Router) => {
     res.send({
       website,
     });
+  });
+
+  router.patch('/websites/:id', async (req, res) => {
+    await patchOneWebsite(req.params.id, req.body);
+
+    res.send();
   });
 
   router.get('/websites', async (_, res) => {

@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { getWebsitesApi, postWebsiteApi, deleteWebsiteApi } from '../api';
+import { getWebsitesApi, postWebsiteApi, deleteWebsiteApi, patchWebsiteApi } from '../api';
 import { RootStore } from './root-store';
 import { Website } from '@common/models/website';
 
@@ -35,6 +35,19 @@ export class WebsitesStore {
       protocol: website.protocol,
     });
     this.websites = [...this.websites, result.website];
+  };
+
+  public updateWebsite = async (id: string, website: Website) => {
+    const patchValue = {
+      host: website.host,
+      name: website.name,
+      path: website.path,
+      protocol: website.protocol,
+    };
+    const websiteIndex = this.websites.findIndex(w => w._id === id);
+    this.websites[websiteIndex] = { ...this.websites[websiteIndex], ...patchValue };
+
+    await patchWebsiteApi(id, patchValue);
   };
 
   public removeWebsite = async (websiteId: string) => {

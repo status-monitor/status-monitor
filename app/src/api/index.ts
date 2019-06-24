@@ -17,6 +17,15 @@ export const postWebsiteApi = async (website: Website): Promise<{ website: Websi
   return res.data;
 };
 
+export const patchWebsiteApi = async (id: string, website: Website): Promise<void> => {
+  await axios.patch(`http://localhost:8080/websites/${id}`, {
+    host: website.host,
+    name: website.name,
+    path: website.path,
+    protocol: website.protocol,
+  });
+};
+
 export const deleteWebsiteApi = async (websiteId: string): Promise<void> => {
   const res = await axios.delete(`http://localhost:8080/websites?_id=${websiteId}`);
   return res.data;

@@ -5,6 +5,7 @@ import { Card } from '@app/shared/card';
 import { getFormattedUptime } from '@app/utils/uptime';
 import Router from 'next/router';
 import { green, red } from '@app/styles/variables';
+import { getWebsiteUrl } from '@common/utils/website';
 
 const StatusLineDiv = styled.div`
   display: flex;
@@ -70,7 +71,7 @@ export const WebsiteStatus: React.FC<{ website: Website }> = ({ website }): Reac
       <StatusLineDiv>
         <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
         <StatusNameDiv>
-          {website.name} <small>{website.protocol}://{website.host}{website.path}</small>
+          {website.name} <small>{getWebsiteUrl(website)}</small>
         </StatusNameDiv>
         {website.status && website.status.duration && (
           <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>
