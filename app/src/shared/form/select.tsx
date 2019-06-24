@@ -2,15 +2,15 @@ import React, { ReactElement, useState, FunctionComponent, ChangeEvent } from 'r
 import styled from 'styled-components';
 import { StyledLabel, StyledFormElement } from './_styles';
 
-const StyledInput = styled(StyledFormElement)`
-  padding: 14px 22px;
+const StyledSelect = styled(StyledFormElement)`
+  height: 46px;
 `;
 
 interface InputProps {
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
-  type?: string;
+  options: { label: string; value: string }[];
 }
 
 export const useInput = (
@@ -30,11 +30,17 @@ export const useInput = (
   ];
 };
 
-export const Input: FunctionComponent<InputProps> = ({ type, value, onChange, label }): ReactElement => {
+export const Select: FunctionComponent<InputProps> = ({ options, value, onChange, label }): ReactElement => {
   return (
     <>
       {label && <StyledLabel>{label}</StyledLabel>}
-      <StyledInput value={value} type={type || 'text'} onChange={onChange} />
+      <StyledSelect as="select" value={value} onChange={onChange}>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </StyledSelect>
     </>
   );
 };

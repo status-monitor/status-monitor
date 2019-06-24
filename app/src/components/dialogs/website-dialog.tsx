@@ -4,6 +4,7 @@ import { Button } from '@app/shared/button';
 import { useInput, Input } from '@app/shared/form/input';
 import { Flex } from '@app/shared/flex';
 import { Website } from '@common/models/website';
+import { Select } from '@app/shared/form/select';
 
 interface WebsiteDialogProps {
   open: boolean;
@@ -21,8 +22,12 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = ({ open, onClose }): 
       <DialogHeader>Add a website</DialogHeader>
       <DialogBody withPadding={true}>
         <Input label="Name" {...bindName} />
+        <Select
+          options={[{ label: 'http://', value: 'http' }, { label: 'https://', value: 'https' }]}
+          label="Protocol"
+          {...bindProtocol}
+        />
         <Input label="Host" {...bindHost} />
-        <Input label="Protocol" {...bindProtocol} />
         <Input label="Path" {...bindPath} />
       </DialogBody>
       <DialogFooter>
