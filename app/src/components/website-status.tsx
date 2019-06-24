@@ -69,7 +69,9 @@ export const WebsiteStatus: React.FC<{ website: Website }> = ({ website }): Reac
     <Card onClick={() => Router.push(`/website?id=${website._id}`)}>
       <StatusLineDiv>
         <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
-        <StatusNameDiv>{website.name}</StatusNameDiv>
+        <StatusNameDiv>
+          {website.name} <small>{website.protocol}://{website.host}{website.path}</small>
+        </StatusNameDiv>
         {website.status && website.status.duration && (
           <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>
         )}
