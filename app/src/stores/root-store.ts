@@ -1,11 +1,14 @@
 import { useContext, createContext, Context } from 'react';
 import { WebsitesStore } from './websites-store';
+import { ConfirmStore } from './confirm-store';
 
 export class RootStore {
   public websitesStore: WebsitesStore;
+  public confirmStore: ConfirmStore;
 
   public constructor(data?: any) {
     this.websitesStore = new WebsitesStore(this, data && data.websitesStore);
+    this.confirmStore = new ConfirmStore(this);
   }
 
   public toJson() {

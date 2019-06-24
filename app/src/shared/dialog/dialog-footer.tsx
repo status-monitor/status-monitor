@@ -13,6 +13,10 @@ const DialogFooterDiv = styled.div`
   flex-direction: row;
   box-sizing: content-box;
   height: ${rem(44)};
+
+  button {
+    margin-left: 5px;
+  }
 `;
 
 export const DialogFooter: FunctionComponent = ({ children }): ReactElement => {

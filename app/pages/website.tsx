@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Button } from '@app/shared/button';
-import { useWebsitesStore } from '@app/stores';
+import { useWebsitesStore, useConfirmStore } from '@app/stores';
 import Router from 'next/router';
 import { Container } from '@app/shared/container';
 import { getWebsiteUrl } from '@common/utils/website';
@@ -14,6 +14,7 @@ interface WebsitePageProps {
 
 const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
   const websitesStore = useWebsitesStore();
+  const confirmStore = useConfirmStore();
   const [websiteDialogOpen, openWebsiteDialog, onCloseWebsiteDialog] = useDialog();
 
   const website = websitesStore.websites.find(w => w._id === id);
@@ -36,11 +37,13 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
       <h1>
         {website.name} <small>{getWebsiteUrl(website)}</small>
       </h1>
-      <Button onClick={openWebsiteDialog}>Edit website</Button>{' '}
+      <Button onClick={openWebsiteDialog}>Edit</Button>{' '}
       <Button
         onClick={() => {
-          websitesStore.removeWebsite(website._id);
-          Router.push('/');
+          confirmStore.confirm(`Are you sure to delete ${website.name} ?`, () => {
+            websitesStore.removeWebsite(website._id);
+            Router.push('/');
+          });
         }}
         theme="danger"
       >
