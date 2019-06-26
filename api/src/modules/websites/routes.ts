@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getLastHealthcheckStatus, getHealthcheckStatus } from '@api/modules/healthcheck/dao';
+import { getLastHealthcheckStatus } from '@api/modules/healthcheck/dao';
 import { getUptime } from '@api/modules/healthcheck/services';
 import { findAllWebsites, deleteOneWebsiteById, patchOneWebsite } from './dao';
 import { createWebsite } from './service';
