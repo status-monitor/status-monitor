@@ -10,8 +10,7 @@ import { useDialog } from '@app/shared/dialog';
 import { Flex, FlexRow } from '@app/shared/flex';
 import { getInfluxApi } from '@app/api';
 import { HealthCheckStatus } from '@common/models/healthcheck-status';
-import { DurationsChart } from '@app/shared/graph/durations-chart';
-import { Card } from '@app/shared/card';
+import { DurationsChart } from '@app/components/graph/durations-chart';
 
 interface WebsitePageProps {
   id: string;
@@ -78,12 +77,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
         </Button>
       </FlexRow>
 
-      <Card>
-        <Container>
-          <h3>Response times</h3>
-          <DurationsChart data={data} />
-        </Container>
-      </Card>
+      <DurationsChart data={data} />
     </Container>
   );
 };

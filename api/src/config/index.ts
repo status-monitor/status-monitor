@@ -21,7 +21,7 @@ interface Config {
 
 export const config: Config = {
   influxDb: {
-    database: 'db32',
+    database: 'database_test',
     host: 'localhost',
   },
   rabbitmq: {

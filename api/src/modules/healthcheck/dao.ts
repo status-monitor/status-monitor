@@ -2,11 +2,10 @@ import { influxDb } from '@api/db/influxdb';
 import { HealthCheckStatus } from '@common/models/healthcheck-status';
 
 export const getHealthcheckStatus = async (websiteId: string): Promise<HealthCheckStatus[]> => {
-  // SELECT sum(“bytes_per_5min”)*8/300 as ‘bitrate’ FROM “SomeMeasurement” WHERE $timeFilter GROUP BY time(5m),“device” fill(null)
   return influxDb.db.query(`
    select count("duration") as count, mean("duration") as "duration", sum("isAlive") as isAlive from status_checks
    where website = '${websiteId}' and time > now() - 18h
-   group by time(1m)
+   group by time(1m), *fill(0)
    order by time desc
    LIMIT 10
    `);
