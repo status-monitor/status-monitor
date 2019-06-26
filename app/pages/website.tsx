@@ -8,10 +8,10 @@ import { getWebsiteUrl } from '@common/utils/website';
 import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
 import { Flex, FlexRow } from '@app/shared/flex';
-import { Chart } from '@app/shared/graph/chart';
-import { Chart2 } from '@app/shared/graph/chart2';
 import { getInfluxApi } from '@app/api';
-import moment from 'moment';
+import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { DurationsChart } from '@app/shared/graph/durations-chart';
+import { Card } from '@app/shared/card';
 
 interface WebsitePageProps {
   id: string;
@@ -21,40 +21,28 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
   const websitesStore = useWebsitesStore();
   const confirmStore = useConfirmStore();
   const [websiteDialogOpen, openWebsiteDialog, onCloseWebsiteDialog] = useDialog();
-  const [data, setData] = useState();
+  const [data, setData] = useState<HealthCheckStatus[]>();
 
   const website = websitesStore.websites.find(w => w._id === id);
 
   useEffect(() => {
     const call = async () => {
-      const { statuses } = await getInfluxApi(website._id);
-      setData(statuses); //.map(d => ({ Rasoul: d }))
-      // console.log(statuses.map(s => ({ x: s.time, y: s.duration })) }))
-      // setData([
-      //   {
-      //     id: 'App',
-      //     color: 'blue',
-      //     data: statuses.map((s, index) => {
-      //       // console.log(moment(s.time).format('YYYY-MM-DD HH:MM:SS'));
-      //       return { x: s.time, y: s.duration };
-      //     }),
-      //   },
-      // ]); //.map(d => ({ Rasoul: d }))
+      const statuses = await getInfluxApi(website._id);
+      setData(statuses);
     };
     if (!process.browser || !website) {
       return;
     }
-    // setInterval(() => {
-    //   call();
-    // }, 10000);
+    const interval = setInterval(() => {
+      call();
+    }, 10000);
     call();
+
+    return () => clearInterval(interval);
   }, [website]);
 
   if (!website) {
     return null;
-  }
-  if (data) {
-    console.log(data);
   }
 
   return (
@@ -90,7 +78,12 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
         </Button>
       </FlexRow>
 
-      {/* <Chart2 data={data} /> */}
+      <Card>
+        <Container>
+          <h3>Response times</h3>
+          <DurationsChart data={data} />
+        </Container>
+      </Card>
     </Container>
   );
 };
