@@ -3,17 +3,18 @@ import { influxDb } from '@api/db/influxdb';
 interface HealthCheckStatus {
   website: string;
   location: string;
-  isAlive: boolean;
+  isAlive: number;
   duration?: number;
   time?: string;
 }
 
 export const getHealthcheckStatus = async (websiteId: string): Promise<HealthCheckStatus[]> => {
+  // SELECT sum(“bytes_per_5min”)*8/300 as ‘bitrate’ FROM “SomeMeasurement” WHERE $timeFilter GROUP BY time(5m),“device” fill(null)
   return influxDb.db.query(`
-   select * from status_checks
-   where website = '${websiteId}'
-   order by time desc
-   limit 100
+   select count("duration") as count, mean("duration") as "duration", sum("isAlive") as isAlive from status_checks
+   where website = '${websiteId}' and time > now() - 18h
+   group by time(1m) fill(0)
+   LIMIT 10
    `);
 };
 

@@ -40,3 +40,8 @@ export const getSettingsApi = async (): Promise<{ settings: Settings }> => {
   const res = await axios.get('http://localhost:8080/settings');
   return res.data;
 };
+
+export const getInfluxApi = async (websiteId: string): Promise<void> => {
+  const res = await axios.get(`http://localhost:8080/influxdb/${websiteId}`);
+  return res.data;
+};

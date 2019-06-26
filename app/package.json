@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nivo/line": "^0.59.0",
     "@types/next": "^8.0.5",
     "@zeit/next-typescript": "^1.1.1",
     "axios": "^0.18.0",
