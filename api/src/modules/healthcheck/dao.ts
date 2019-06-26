@@ -1,19 +1,13 @@
 import { influxDb } from '@api/db/influxdb';
-
-interface HealthCheckStatus {
-  website: string;
-  location: string;
-  isAlive: boolean;
-  duration?: number;
-  time?: string;
-}
+import { HealthCheckStatus } from '@common/models/healthcheck-status';
 
 export const getHealthcheckStatus = async (websiteId: string): Promise<HealthCheckStatus[]> => {
   return influxDb.db.query(`
-   select * from status_checks
-   where website = '${websiteId}'
+   select count("duration") as count, mean("duration") as "duration", sum("isAlive") as isAlive from status_checks
+   where website = '${websiteId}' and time > now() - 18h
+   group by time(1m), *fill(0)
    order by time desc
-   limit 100
+   LIMIT 10
    `);
 };
 

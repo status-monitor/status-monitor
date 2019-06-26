@@ -18,6 +18,7 @@ export const findOneWebsiteById = async (id: string): Promise<Website> => {
 export const insertOneWebsite = async (website: Website): Promise<Website> => {
   await mongo.waitReady();
   const response = await mongo.db.collection('websites').insertOne({
+    createdAt: new Date(),
     host: website.host,
     name: website.name,
     path: website.path,

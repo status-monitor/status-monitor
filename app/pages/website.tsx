@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Button } from '@app/shared/button';
 import { useWebsitesStore, useConfirmStore } from '@app/stores';
@@ -8,6 +8,9 @@ import { getWebsiteUrl } from '@common/utils/website';
 import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
 import { Flex, FlexRow } from '@app/shared/flex';
+import { getInfluxApi } from '@app/api';
+import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { DurationsChart } from '@app/components/graph/durations-chart';
 
 interface WebsitePageProps {
   id: string;
@@ -17,8 +20,26 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
   const websitesStore = useWebsitesStore();
   const confirmStore = useConfirmStore();
   const [websiteDialogOpen, openWebsiteDialog, onCloseWebsiteDialog] = useDialog();
+  const [data, setData] = useState<HealthCheckStatus[]>();
 
   const website = websitesStore.websites.find(w => w._id === id);
+
+  useEffect(() => {
+    const call = async () => {
+      const statuses = await getInfluxApi(website._id);
+      setData(statuses);
+    };
+    if (!process.browser || !website) {
+      return;
+    }
+    const interval = setInterval(() => {
+      call();
+    }, 10000);
+    call();
+
+    return () => clearInterval(interval);
+  }, [website]);
+
   if (!website) {
     return null;
   }
@@ -55,6 +76,8 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
           Delete
         </Button>
       </FlexRow>
+
+      <DurationsChart data={data} />
     </Container>
   );
 };

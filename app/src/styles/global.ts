@@ -1,4 +1,4 @@
-import { green } from './variables';
+import { green, backgroundColor } from './variables';
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         font-family: Hack, monospace;
+        background: ${backgroundColor};
     }
 
     a {

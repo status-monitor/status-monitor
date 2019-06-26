@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { Button } from '@app/shared/button';
 import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
+import { Empty } from '@app/shared/empty';
 
 const IndexPage: StatelessPage = observer(
   (): ReactElement => {
@@ -17,17 +18,35 @@ const IndexPage: StatelessPage = observer(
       return null;
     }
 
+    const websiteDialog = (
+      <WebsiteDialog
+        open={websiteDialogOpen}
+        onClose={values => {
+          if (values) {
+            websitesStore.addWebsite(values);
+          }
+          onCloseWebsiteDialog();
+        }}
+      />
+    );
+
+    if (!websitesStore.websites.length) {
+      return (
+        <>
+          {websiteDialog}
+          <Empty
+            title="You don't have any website right now."
+            subtitle="Click on the button below monitoring your websites"
+            buttonText="Add a website"
+            onClick={openWebsiteDialog}
+          />
+        </>
+      );
+    }
+
     return (
       <Container>
-        <WebsiteDialog
-          open={websiteDialogOpen}
-          onClose={values => {
-            if (values) {
-              websitesStore.addWebsite(values);
-            }
-            onCloseWebsiteDialog();
-          }}
-        />
+        {websiteDialog}
         <Button onClick={openWebsiteDialog}>Add a new website</Button>
         {websitesStore.websites.map(website => (
           <WebsiteStatus website={website} key={website._id} />

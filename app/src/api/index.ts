@@ -40,3 +40,9 @@ export const getSettingsApi = async (): Promise<{ settings: Settings }> => {
   const res = await axios.get('http://localhost:8080/settings');
   return res.data;
 };
+import { HealthCheckStatus } from '@common/models/healthcheck-status';
+
+export const getInfluxApi = async (websiteId: string): Promise<HealthCheckStatus[]> => {
+  const res = await axios.get(`http://localhost:8080/websites/${websiteId}/statuses`);
+  return res.data && res.data.statuses;
+};

@@ -21,7 +21,7 @@ export const cardBackground = appBarBackground;
 // FORM
 export const formElementBackground = backgroundColor;
 export const formElementBorderColor = backgroundColor;
-export const formElementActiveBorderColor = primary;
+export const formElementActiveBorderColor = green;
 
 // BUTTON
 export const primaryButtonBackground = primary;

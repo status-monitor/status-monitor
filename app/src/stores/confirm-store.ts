@@ -20,7 +20,6 @@ export class ConfirmStore {
     this.isOpen = true;
     this.text = text;
     this.callback = callback;
-    console.log(this.isOpen, text, callback);
   };
 
   public onCancel = () => {

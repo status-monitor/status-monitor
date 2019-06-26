@@ -10,7 +10,7 @@ class InfluxDb {
         measurement: 'status_checks',
         fields: {
           website: Influx.FieldType.STRING,
-          isAlive: Influx.FieldType.BOOLEAN,
+          isAlive: Influx.FieldType.INTEGER,
           duration: Influx.FieldType.FLOAT,
           location: Influx.FieldType.STRING,
         },
