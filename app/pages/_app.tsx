@@ -1,9 +1,11 @@
 import React from 'react';
 import App, { Container } from 'next/app';
+import { Normalize } from 'styled-normalize';
 
 import { AppLayout } from '@app/layout';
 import { Head } from '@app/layout/head';
 import { initializeStore, RootStore, RootStoreContext } from '@app/stores/root-store';
+import { GlobalStyle } from '@app/styles/global';
 
 interface MyAppProps {
   title: string;
@@ -41,6 +43,8 @@ class MyApp extends App<MyAppProps> {
 
     return (
       <Container>
+        <GlobalStyle />
+        <Normalize />
         <RootStoreContext.Provider value={this.rootStore}>
           <Head title={title}>{(Component as any).head}</Head>
           <AppLayout>
