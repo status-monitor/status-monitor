@@ -39,7 +39,7 @@ export const DurationsChart: FunctionComponent<DurationsChartProps> = ({ data })
     <Card>
       <Container>
         <h3>Response times</h3>
-        <div style={{ height: 650 }}>
+        <div style={{ height: 450 }}>
           <ResponsiveLine
             data={chartData}
             theme={{
@@ -66,7 +66,7 @@ export const DurationsChart: FunctionComponent<DurationsChartProps> = ({ data })
                 },
               },
             }}
-            margin={{ top: 40, right: 20, bottom: 70, left: 70 }}
+            margin={{ top: 0, right: 20, bottom: 70, left: 70 }}
             xScale={{ type: 'point' }}
             yScale={{ type: 'linear', stacked: true, min: 0, max: maxValue + 100 }}
             axisTop={null}
