@@ -4,7 +4,7 @@ import { green, backgroundColor } from '@app/styles/variables';
 import { HealthCheckStatus } from '@common/models/healthcheck-status';
 import moment from 'moment';
 import { Card } from '@app/shared/card';
-import { Container } from 'next/app';
+import { Container } from '@app/shared/container';
 
 interface DurationsChartProps {
   data: HealthCheckStatus[];
@@ -93,8 +93,6 @@ export const DurationsChart: FunctionComponent<DurationsChartProps> = ({ data })
             pointColor={{ theme: 'background' }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}
-            pointLabel="Duration (ms)"
-            pointLabelYOffset={-12}
             useMesh={true}
           />
         </div>
