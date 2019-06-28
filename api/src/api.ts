@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { loadRoutes } from './routes/routes';
+import { errorHandling } from './middlewares/error-middleware';
 
 const port = 8080;
 
@@ -18,6 +19,8 @@ server.use(bodyParser.json());
 server.use(cors());
 
 loadRoutes(server);
+
+server.use(errorHandling);
 
 const serverListener = server.listen(port, (err: Error) => {
   if (err) throw err;

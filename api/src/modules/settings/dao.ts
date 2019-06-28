@@ -1,9 +1,14 @@
 import { mongo } from '@api/db/mongodb';
 import { Settings } from '@common/models/settings';
 
-export const upsertSettings = async (settings: Settings): Promise<void> => {
+interface SettingsUpdate extends Settings {
+  // 'aws.installedFunctions.lambdaVersionInstalled'?: Settings['aws']['installedFunctions'];
+  // 'aws.zones'?: Settings['aws']['zones'];
+}
+
+export const upsertSettings = async (settings: SettingsUpdate): Promise<void> => {
   await mongo.waitReady();
-  await mongo.db.collection('settings').update({}, settings, { upsert: true });
+  await mongo.db.collection('settings').updateOne({}, { $set: settings }, { upsert: true });
 };
 
 export const findOneSettings = async (): Promise<Settings> => {
