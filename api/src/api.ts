@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { loadRoutes } from './routes/routes';
+import { errorHandling } from './middlewares/error-middleware';
 
 const port = 8080;
 
@@ -16,6 +17,7 @@ server.use(helmet());
 server.use(compression());
 server.use(bodyParser.json());
 server.use(cors());
+server.use(errorHandling);
 
 loadRoutes(server);
 

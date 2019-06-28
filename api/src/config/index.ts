@@ -1,4 +1,5 @@
 interface Config {
+  encryptionKey: string;
   rabbitmq: {
     host: string;
     port: number;
@@ -20,6 +21,7 @@ interface Config {
 }
 
 export const config: Config = {
+  encryptionKey: process.env.ENCRYPTION_KEY || 'jN8JTgTii_!HRQWqyDT*rCaK6r.dXXpp',
   influxDb: {
     database: 'database_test',
     host: 'localhost',

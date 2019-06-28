@@ -3,4 +3,8 @@ export interface Settings {
     channel: string;
     webhookUrl: string;
   };
+  aws?: {
+    accessKey: string;
+    secretKey: string;
+  };
 }
