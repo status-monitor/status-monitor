@@ -6,5 +6,7 @@ export interface Settings {
   aws?: {
     accessKey: string;
     secretKey: string;
+    lambdaVersionInstalled?: string;
+    zones?: string[];
   };
 }

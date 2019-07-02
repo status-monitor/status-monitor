@@ -17,9 +17,10 @@ server.use(helmet());
 server.use(compression());
 server.use(bodyParser.json());
 server.use(cors());
-server.use(errorHandling);
 
 loadRoutes(server);
+
+server.use(errorHandling);
 
 const serverListener = server.listen(port, (err: Error) => {
   if (err) throw err;

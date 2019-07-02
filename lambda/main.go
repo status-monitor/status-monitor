@@ -1,7 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"errors"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"time"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -23,7 +28,24 @@ func handleLambdaEvent(event Request) (response Response, err error) {
 	if event.Host == "" || event.Path == "" || event.Protocol == "" {
 		return response, errors.New("Wrong arguments")
 	}
-	return Response{Ms: 200, Status: 200}, nil
+
+	var url bytes.Buffer
+	url.WriteString(event.Protocol)
+	url.WriteString(event.Host)
+	url.WriteString(event.Path)
+
+	start := time.Now()
+	resp, err := http.Get(url.String())
+	elapsed := time.Since(start)
+	if err != nil {
+		return response, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	fmt.Println("get:\n", string(body))
+
+	return Response{Ms: int(elapsed.Seconds() * 1000), Status: resp.StatusCode}, nil
 }
 
 func main() {

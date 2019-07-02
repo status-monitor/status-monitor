@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { APIError } from '@api/models/api-error';
+import { config } from '@api/config';
 
-export const errorHandling = (err: APIError, req: Request, res: Response, _1: NextFunction) => {
+export const errorHandling = (err: APIError, _: Request, res: Response, _1: NextFunction) => {
   // if this is not a classic API error, we throw a 500
   if (!err.statusCode) {
     const error = (err as unknown) as Error;
@@ -14,11 +15,10 @@ export const errorHandling = (err: APIError, req: Request, res: Response, _1: Ne
   }
 
   res.status(err.statusCode);
-  console.info('API Error');
   console.error(err);
   res.send({
     success: false,
-    // error: config.app.env !== 'production' ? err.error.message : undefined,
+    error: config.app.env !== 'production' ? err.error.message : undefined,
   });
 };
 

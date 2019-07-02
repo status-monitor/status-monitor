@@ -5,16 +5,20 @@ import { APIError } from '@api/models/api-error';
 import { encrypt } from '@api/utils/encrypt';
 
 export const loadSettingsRoutes = (router: Router) => {
-  router.put('/settings', async (req, res) => {
-    upsertSettings(req.body);
+  router.put('/settings', async (req, res, next) => {
+    try {
+      upsertSettings(req.body);
 
-    res.send();
+      res.send();
+    } catch (e) {
+      next(e);
+    }
   });
 
   router.put('/settings/aws', async (req, res, next) => {
     try {
       try {
-        await listLambdaFunctions(req.body);
+        await listLambdaFunctions('eu-west-1', req.body);
       } catch (e) {
         throw new APIError(403, new Error('Invalid Credentials'));
       }
@@ -31,9 +35,13 @@ export const loadSettingsRoutes = (router: Router) => {
     }
   });
 
-  router.get('/settings', async (_, res) => {
-    const settings = await findOneSettings();
+  router.get('/settings', async (_, res, next) => {
+    try {
+      const settings = await findOneSettings();
 
-    res.send({ settings });
+      res.send({ settings });
+    } catch (e) {
+      next(e);
+    }
   });
 };
