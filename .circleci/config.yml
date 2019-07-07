@@ -15,7 +15,9 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-  tscApp:
+            - ./api/node_modules
+            - ./app/node_modules
+  tsc:
     working_directory: ~/repo
     docker:
       - image: circleci/node:12
@@ -25,18 +27,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Typescript checking
-          command: cd app && npm run tsc
-  tscApi:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:12
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: # run tests
-          name: Typescript checking
-          command: cd api && npm run tsc
+          command: npm run tsc
 
   test:
     working_directory: ~/repo
@@ -54,10 +45,7 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - tscApp:
-          requires:
-            - build
-      - tscApi:
+      - tsc:
           requires:
             - build
       - test:
