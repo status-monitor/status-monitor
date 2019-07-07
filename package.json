@@ -7,7 +7,7 @@
     "start": "concurrently \"cd app && npm run dev\" \"cd api && npm run dev\" -n app,api -c blue,green",
     "lint": "eslint 'app/**/*.ts' 'app/**/*.tsx' 'common/**/*.ts' 'api/**/*.ts'",
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"no test specified\" && exit 0",
     "postinstall": "cd app && npm install && cd ../api && npm install"
   },
   "author": "",
