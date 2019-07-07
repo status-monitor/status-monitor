@@ -14,7 +14,7 @@ class RabbitMQ {
     this.init();
   }
 
-  public async init(firstConnection = true): void {
+  public async init(firstConnection = true): Promise<void> {
     try {
       const url = `amqp://${config.rabbitmq.user}:${config.rabbitmq.password}@${config.rabbitmq.host}:${config.rabbitmq.port}`;
 
