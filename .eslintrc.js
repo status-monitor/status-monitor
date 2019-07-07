@@ -14,11 +14,11 @@ module.exports =  {
       sourceType:  'module',  // Allows for the use of imports
     },
     rules: {
-      '@typescript-eslint/explicit-function-return-type': false,
-      '@typescript-eslint/no-explicit-any': false,
-      '@typescript-eslint/no-use-before-define': false,
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-use-before-define': 'warn',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'react/prop-types': false
+      'react/prop-types': 'warn'
     }
   };

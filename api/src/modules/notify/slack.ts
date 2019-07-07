@@ -1,7 +1,12 @@
 // @ts-ignore
 import Slack from 'slack-notify';
 
-export const sendSlackMessage = async (webhookUrl: string, channel: string, text: string, fields?: any) => {
+export const sendSlackMessage = async (
+  webhookUrl: string,
+  channel: string,
+  text: string,
+  fields?: object,
+): Promise<void> => {
   const slackNotify = Slack(webhookUrl);
 
   slackNotify.send({

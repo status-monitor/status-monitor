@@ -36,6 +36,11 @@ export const putSettingsApi = async (settings: Partial<Settings>): Promise<void>
   return res.data;
 };
 
+export const putAwsSettingsApi = async (settings: Settings['aws']): Promise<void> => {
+  const res = await axios.put('http://localhost:8080/settings/aws', settings);
+  return res.data;
+};
+
 export const getSettingsApi = async (): Promise<{ settings: Settings }> => {
   const res = await axios.get('http://localhost:8080/settings');
   return res.data;
