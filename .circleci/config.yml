@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          key: dep-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install deps
+          command: npm install
+      - save_cache:
+          key: dep-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+            - ./api/node_modules
+            - ./app/node_modules
+  tsc:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          key: dep-cache-{{ checksum "package.json" }}
+      - run: # run tests
+          name: Typescript checking
+          command: npm run tsc
+
+  test:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          key: dep-cache-{{ checksum "package.json" }}
+      - run: # run tests
+          name: Testing
+          command: npm test
+workflows:
+  version: 2
+  fulltest:
+    jobs:
+      - build
+      - tsc:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
