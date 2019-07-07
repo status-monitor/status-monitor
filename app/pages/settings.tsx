@@ -13,20 +13,12 @@ import { Settings } from '@common/models/settings';
 
 const SettingsPage: StatelessPage<{ settings: Settings }> = observer(
   ({ settings }): ReactElement => {
-    const [slackWebhook, bindSlackWebhook, setSlackWebhook] = useFormValue<string>('');
-    const [slackChannel, bindSlackChannel, setSlackChannel] = useFormValue<string>('');
-    const [isAwsSetup, setIsAwsSetup] = useState<boolean>(false);
+    const [slackWebhook, bindSlackWebhook] = useFormValue<string>(
+      settings && settings.slack && settings.slack.webhookUrl,
+    );
+    const [slackChannel, bindSlackChannel] = useFormValue<string>(settings && settings.slack && settings.slack.channel);
+    const [isAwsSetup, setIsAwsSetup] = useState<boolean>(settings && settings.aws && !!settings.aws.accessKey);
     const [awsDialogOpen, openAwsDialog, onCloseAwsDialog] = useDialog();
-
-    useEffect(() => {
-      if (settings && settings.slack) {
-        setSlackChannel(settings.slack.channel);
-        setSlackWebhook(settings.slack.webhookUrl);
-      }
-      if (settings && settings.aws) {
-        setIsAwsSetup(!!settings.aws.accessKey);
-      }
-    }, [setSlackChannel, setSlackWebhook, setIsAwsSetup, settings]);
 
     const onChangeAwsSettings = useCallback(
       values => {
