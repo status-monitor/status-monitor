@@ -25,6 +25,9 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Typescript checking
+          command: ls
+      - run: # run tests
+          name: Typescript checking
           command: npm run tsc
 
   test:
