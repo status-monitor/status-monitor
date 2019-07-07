@@ -16,7 +16,7 @@ module.exports =  {
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-use-before-define': 'warn',
+      '@typescript-eslint/no-use-before-define': 0,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/prop-types': 'warn'

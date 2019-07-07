@@ -1,6 +1,6 @@
 import * as WebSocket from 'ws';
 
-export const loadWebsocketServer = () => {
+export const loadWebsocketServer = (): void => {
   const wss = new WebSocket.Server({
     port: 8081,
     //   perMessageDeflate: {
@@ -24,7 +24,7 @@ export const loadWebsocketServer = () => {
     //   }
   });
 
-  wss.on('connection', () => {
+  wss.on('connection', (): void => {
     console.log('client connected');
   });
   console.log('Websocket server started on port 8081');

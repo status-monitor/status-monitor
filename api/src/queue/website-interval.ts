@@ -8,47 +8,50 @@ import { notifyStatusChange } from '@api/modules/notify/service';
 
 export const watchWebsiteIntervalQueueName = 'websiteInterval';
 
-export const assertQueue = async () => {
+export const assertQueue = async (): Promise<void> => {
   await rabbitMQ.db.assertQueue(watchWebsiteIntervalQueueName, { durable: true });
 };
 
-const listen = async () => {
+const listen = async (): Promise<void> => {
   await assertQueue();
 
-  rabbitMQ.db.consume(watchWebsiteIntervalQueueName, async (message: ConsumeMessage) => {
-    const content = JSON.parse(message.content.toString('utf-8'));
+  rabbitMQ.db.consume(
+    watchWebsiteIntervalQueueName,
+    async (message: ConsumeMessage): Promise<void> => {
+      const content = JSON.parse(message.content.toString('utf-8'));
 
-    const findAndCheckWebsite = async () => {
-      const website = await findOneWebsiteById(content.websiteId);
-      if (!website) {
-        rabbitMQ.db.ack(message);
-        clearInterval(interval);
-        return;
-      }
-      const isAlive = await checkWebsite(website);
-      if (website.isAlive !== isAlive) {
-        patchOneWebsite(website._id, {
-          isAlive,
-        });
-        notifyStatusChange(isAlive, website);
-      }
-    };
+      const findAndCheckWebsite = async (): Promise<void> => {
+        const website = await findOneWebsiteById(content.websiteId);
+        if (!website) {
+          rabbitMQ.db.ack(message);
+          clearInterval(interval);
+          return;
+        }
+        const isAlive = await checkWebsite(website);
+        if (website.isAlive !== isAlive) {
+          patchOneWebsite(website._id, {
+            isAlive,
+          });
+          notifyStatusChange(isAlive, website);
+        }
+      };
 
-    findAndCheckWebsite();
-    const interval = setInterval(findAndCheckWebsite, 10000);
-  });
+      findAndCheckWebsite();
+      const interval = setInterval(findAndCheckWebsite, 10000);
+    },
+  );
 
   console.debug(`Worker started`);
 };
 
-export const loadWebsiteIntervalWatcher = async () => {
+export const loadWebsiteIntervalWatcher = async (): Promise<void> => {
   rabbitMQ.onReconnect(() => listen());
 
   await rabbitMQ.waitReady();
   listen();
 };
 
-export const sendWebsiteIntervalToQueue = async (websiteId: string) => {
+export const sendWebsiteIntervalToQueue = async (websiteId: string): Promise<bollean> => {
   return rabbitMQ.db.sendToQueue(
     watchWebsiteIntervalQueueName,
     Buffer.from(

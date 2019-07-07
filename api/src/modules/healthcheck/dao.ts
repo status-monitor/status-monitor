@@ -41,8 +41,8 @@ export const getFirstHealthcheckStatus = async (websiteId: string): Promise<Heal
   return results && (results[0] as HealthCheckStatus);
 };
 
-export const writeHealthcheckStatus = (fields: HealthCheckStatus) => {
-  influxDb.db.writePoints([
+export const writeHealthcheckStatus = async (fields: HealthCheckStatus): Promise<void> => {
+  await influxDb.db.writePoints([
     {
       measurement: 'status_checks',
       fields,

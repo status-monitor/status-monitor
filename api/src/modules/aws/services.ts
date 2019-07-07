@@ -1,10 +1,12 @@
-import aws from 'aws-sdk';
+import aws, { AWSError } from 'aws-sdk';
 import { getAwsSettings } from '../settings/services';
 import { Settings } from '@common/models/settings';
 import { APIError } from '@api/models/api-error';
 import { FunctionConfiguration } from 'aws-sdk/clients/greengrass';
 import { upsertSettings } from '../settings/dao';
 import { AwsZone } from './models';
+import { PromiseResult } from 'aws-sdk/lib/request';
+import { ListFunctionsResponse } from 'aws-sdk/clients/lambda';
 
 const LambdaFunctionName = 'Status-Monitor-OSS-Checker';
 const version = 1;
@@ -109,10 +111,13 @@ export const isLambdaFunctionExisting = async (
   settings?: Settings['aws'],
 ): Promise<FunctionConfiguration> => {
   const functions = await listLambdaFunctions(region, settings);
-  return functions.Functions.find(func => func.FunctionName === LambdaFunctionName);
+  return functions.Functions.find((func): boolean => func.FunctionName === LambdaFunctionName);
 };
 
-export const listLambdaFunctions = async (region: AwsZone, settings?: Settings['aws']) => {
+export const listLambdaFunctions = async (
+  region: AwsZone,
+  settings?: Settings['aws'],
+): Promise<PromiseResult<ListFunctionsResponse, AWSError>> => {
   if (!settings) {
     settings = await getAwsSettings();
   }
