@@ -20,6 +20,8 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Typescript checking
           command: npm run tsc
@@ -29,6 +31,8 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Testing
           command: npm test
