@@ -59,11 +59,10 @@ export const createLambdaFunction = async (region: AwsZone, settings?: Settings[
       Role: 'arn:aws:iam::365165116898:role/SESEmailForward-SESEmailForwardRole-1GNVGIH6P94G',
       Handler: 'main',
     },
-    err => {
+    (err): void => {
       if (err) {
         throw err;
       }
-      console.log('Upsert settings');
       upsertSettings({
         [`aws.installedFunctions.${region}`]: LambdaZipFileVersion,
       });
@@ -94,11 +93,10 @@ export const updateLambdaFunction = async (region: AwsZone, settings?: Settings[
       S3Key: LambdaZipFileVersion,
       // RevisionId: `${version}`,
     },
-    err => {
+    (err): void => {
       if (err) {
         throw err;
       }
-      console.log('Upsert settings');
       upsertSettings({
         [`aws.installedFunctions.${region}`]: LambdaZipFileVersion,
       });
