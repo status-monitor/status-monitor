@@ -24,8 +24,11 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: # run tests
-          name: Typescript checking
+          name: Ls
           command: ls
+      - run: # run tests
+          name: Ls2
+          command: ls node_modules
       - run: # run tests
           name: Typescript checking
           command: npm run tsc
