@@ -51,7 +51,7 @@ export const loadWebsiteIntervalWatcher = async (): Promise<void> => {
   listen();
 };
 
-export const sendWebsiteIntervalToQueue = async (websiteId: string): Promise<bollean> => {
+export const sendWebsiteIntervalToQueue = async (websiteId: string): Promise<boolean> => {
   return rabbitMQ.db.sendToQueue(
     watchWebsiteIntervalQueueName,
     Buffer.from(
