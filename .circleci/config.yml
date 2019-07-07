@@ -7,12 +7,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dep-cache-{{ checksum "package.json" }}
       - run:
           name: Install deps
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dep-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
             - ./api/node_modules
@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dep-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Typescript checking
           command: npm run tsc
@@ -36,13 +36,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dep-cache-{{ checksum "package.json" }}
       - run: # run tests
           name: Testing
           command: npm test
 workflows:
   version: 2
-  build_and_test:
+  fulltest:
     jobs:
       - build
       - tsc:
