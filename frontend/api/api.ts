@@ -1,5 +1,5 @@
 class Api {
-  public baseUrl = 'http://localhost:3001';
+  public baseUrl = '';
 }
 
 export const api = new Api();

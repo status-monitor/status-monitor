@@ -37,8 +37,9 @@ if (dev) {
         loadRouter();
     });
 } else {
-    router = require('./dist-backend/api.js')();
-    router = require('./dist-backend/routes.js')();
+    require('./dist-api/queue.js');
+    const routes = require('./dist-api/routes.js');
+    router = routes.loadRoutes();
 }
 
 app.prepare()

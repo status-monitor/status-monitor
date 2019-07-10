@@ -11,7 +11,7 @@
         "root": ["./"],
         "alias": {
           "@api": "./api",
-          "@common": "./common"
+          "@common": "./api/common"
         }
       }]
     ]

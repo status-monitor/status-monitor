@@ -8,8 +8,8 @@
     "tsc": "tsc",
     "test": "echo \"no test specified\" && exit 0",
     "dev": "node server.js",
-    "build": "next build",
-    "build:backend": "babel backend -d dist-backend --extensions .ts --copy-files",
+    "build": "next build && npm run build:backend",
+    "build:backend": "babel api -d dist-api --extensions .ts --copy-files",
     "start": "NODE_ENV=production node server.js"
   },
   "author": "",
@@ -48,6 +48,7 @@
     "ws": "7.1.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.0",
     "@babel/register": "^7.4.4",
     "@types/amqplib": "0.5.13",
     "@types/body-parser": "1.17.0",

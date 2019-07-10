@@ -20,7 +20,7 @@ export const postWebsiteApi = async (website: Website): Promise<{ website: Websi
 };
 
 export const patchWebsiteApi = async (id: string, website: Website): Promise<void> => {
-  await axios.patch(`http://localhost:8080/websites/${id}`, {
+  await axios.patch(`${api.baseUrl}/api/websites/${id}`, {
     host: website.host,
     name: website.name,
     path: website.path,
@@ -29,26 +29,26 @@ export const patchWebsiteApi = async (id: string, website: Website): Promise<voi
 };
 
 export const deleteWebsiteApi = async (websiteId: string): Promise<void> => {
-  const res = await axios.delete(`http://localhost:8080/websites?_id=${websiteId}`);
+  const res = await axios.delete(`${api.baseUrl}/api/websites?_id=${websiteId}`);
   return res.data;
 };
 
 export const putSettingsApi = async (settings: Partial<Settings>): Promise<void> => {
-  const res = await axios.put('http://localhost:8080/settings', settings);
+  const res = await axios.put(`${api.baseUrl}/api/settings`, settings);
   return res.data;
 };
 
 export const putAwsSettingsApi = async (settings: Settings['aws']): Promise<void> => {
-  const res = await axios.put('http://localhost:8080/settings/aws', settings);
+  const res = await axios.put(`${api.baseUrl}/api/settings/aws`, settings);
   return res.data;
 };
 
 export const getSettingsApi = async (): Promise<{ settings: Settings }> => {
-  const res = await axios.get('http://localhost:8080/settings');
+  const res = await axios.get(`${api.baseUrl}/api/settings`);
   return res.data;
 };
 
 export const getInfluxApi = async (websiteId: string): Promise<HealthCheckStatus[]> => {
-  const res = await axios.get(`http://localhost:8080/websites/${websiteId}/statuses`);
+  const res = await axios.get(`${api.baseUrl}/websites/${websiteId}/statuses`);
   return res.data && res.data.statuses;
 };
