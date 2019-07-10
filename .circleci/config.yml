@@ -15,8 +15,6 @@ jobs:
           key: dep-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-            - ./api/node_modules
-            - ./app/node_modules
   tsc:
     working_directory: ~/repo
     docker:
