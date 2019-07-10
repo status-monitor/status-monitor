@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { Website } from '@common/models/website';
 import { Settings } from '@common/models/settings';
+import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { api } from './api';
 
 export const getWebsitesApi = async (): Promise<{ websites: Website[] }> => {
-  const res = await axios.get('http://localhost:8080/websites');
+  const res = await axios.get(`${api.baseUrl}/api/websites`);
   return res.data;
 };
 
 export const postWebsiteApi = async (website: Website): Promise<{ website: Website }> => {
-  const res = await axios.post('http://localhost:8080/websites', {
+  const res = await axios.post(`${api.baseUrl}/api/websites`, {
     host: website.host,
     name: website.name,
     path: website.path,
@@ -45,7 +47,6 @@ export const getSettingsApi = async (): Promise<{ settings: Settings }> => {
   const res = await axios.get('http://localhost:8080/settings');
   return res.data;
 };
-import { HealthCheckStatus } from '@common/models/healthcheck-status';
 
 export const getInfluxApi = async (websiteId: string): Promise<HealthCheckStatus[]> => {
   const res = await axios.get(`http://localhost:8080/websites/${websiteId}/statuses`);
