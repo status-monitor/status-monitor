@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-import * as moment from 'moment';
+import moment from 'moment';
 import { getLastFailedHealthcheckStatus, getFirstHealthcheckStatus, writeHealthcheckStatus } from './dao';
 import { Website } from '@common/models/website';
 import { getWebsiteUrl } from '@common/utils/website';

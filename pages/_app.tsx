@@ -6,6 +6,8 @@ import { AppLayout } from '@app/layout';
 import { Head } from '@app/layout/head';
 import { initializeStore, RootStore, RootStoreContext } from '@app/stores/root-store';
 import { GlobalStyle } from '@app/styles/global';
+import { api } from '@app/api/api';
+import { NextPageContext } from 'next';
 
 interface MyAppProps {
   title: string;
@@ -13,13 +15,18 @@ interface MyAppProps {
 
 class MyApp extends App<MyAppProps> {
   // TODOTS
-  public static async getInitialProps({ Component, ctx }: any) {
+  public static async getInitialProps({ Component, ctx }: { Component: any; ctx: NextPageContext }) {
     let pageProps: any = {};
 
     const rootStore = initializeStore();
 
-    await rootStore.websitesStore.getWebsites(true);
+    if (ctx.req) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const req: any = ctx.req;
+      api.baseUrl = `${req.protocol}://${req.get('Host')}`;
+    }
 
+    await rootStore.websitesStore.getWebsites(true);
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx, rootStore);
     }

@@ -5,8 +5,10 @@ import { loadHealthcheckRoutes } from '@api/modules/healthcheck/router';
 
 // const pause = (timeout = 2000) => new Promise(resolve => setTimeout(resolve, timeout));
 
-export const loadRoutes = (router: Router): void => {
+export const loadRoutes = (): Router => {
+  const router = Router();
   loadWebsitesRoutes(router);
   loadSettingsRoutes(router);
   loadHealthcheckRoutes(router);
+  return router;
 };

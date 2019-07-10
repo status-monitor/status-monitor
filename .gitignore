@@ -3,3 +3,5 @@
 **/node_modules
 lambda.zip
 build
+.next
+dist-api
