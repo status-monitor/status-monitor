@@ -84,7 +84,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
 
 WebsitePage.title = 'Website';
 
-WebsitePage.getInitialProps = async (ctx, _) => {
+WebsitePage.getInitialProps = async ctx => {
   return {
     id: ctx.query.id as string,
   };

@@ -52,6 +52,9 @@ export const AppHeader: FunctionComponent = () => {
       <Link href="/">
         <a>Home</a>
       </Link>
+      <Link href="/scenarios">
+        <a>Scenarios</a>
+      </Link>
       <Link href="/settings">
         <a>Settings</a>
       </Link>
