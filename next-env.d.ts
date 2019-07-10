@@ -6,3 +6,7 @@ namespace NodeJS {
     browser: boolean;
   }
 }
+
+declare module 'console' {
+  export = typeof import('console');
+}

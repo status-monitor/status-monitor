@@ -3,6 +3,8 @@ import { rabbitMQ } from '@api/db/rabbitmq';
 import { findOneWebsiteById, patchOneWebsite } from '@api/modules/websites/dao';
 import { checkWebsite } from '@api/modules/healthcheck/services';
 import { notifyStatusChange } from '@api/modules/notify/service';
+import { findOneScenarioById } from '@api/modules/scenarios/dao';
+import moment from 'moment';
 // import { findOneBuildById } from '@api/modules/builds/dao';
 // import { continueWorkflow } from '@api/modules/builds/service';
 
@@ -27,6 +29,10 @@ const listen = async (): Promise<void> => {
           clearInterval(interval);
           return;
         }
+        const scenario = await findOneScenarioById(website.scenarioId);
+        if (!scenario || moment().unix() % scenario.interval !== 0) {
+          return;
+        }
         const isAlive = await checkWebsite(website);
         if (website.isAlive !== isAlive) {
           patchOneWebsite(website._id, {
@@ -37,7 +43,7 @@ const listen = async (): Promise<void> => {
       };
 
       findAndCheckWebsite();
-      const interval = setInterval(findAndCheckWebsite, 10000);
+      const interval = setInterval(findAndCheckWebsite, 1000);
     },
   );
 

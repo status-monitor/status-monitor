@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { getWebsitesApi, postWebsiteApi, deleteWebsiteApi, patchWebsiteApi } from '../api';
+import { getWebsitesApi, postWebsiteApi, deleteWebsiteApi, patchWebsiteApi } from '@app/api/website';
 import { RootStore } from './root-store';
 import { Website } from '@common/models/website';
 
@@ -33,6 +33,7 @@ export class WebsitesStore {
       name: website.name,
       path: website.path,
       protocol: website.protocol,
+      scenarioId: website.scenarioId,
     });
     this.websites = [...this.websites, result.website];
   };
@@ -43,6 +44,7 @@ export class WebsitesStore {
       name: website.name,
       path: website.path,
       protocol: website.protocol,
+      scenarioId: website.scenarioId,
     };
     const websiteIndex = this.websites.findIndex(w => w._id === id);
     this.websites[websiteIndex] = { ...this.websites[websiteIndex], ...patchValue };

@@ -53,9 +53,9 @@ export const loadWebsitesRoutes = (router: Router): void => {
   );
 
   router.delete(
-    '/websites',
+    '/websites/:id',
     async (req, res): Promise<void> => {
-      await deleteOneWebsiteById(req.query._id);
+      await deleteOneWebsiteById(req.params.id);
 
       res.send();
     },

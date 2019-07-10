@@ -8,7 +8,7 @@ import { getWebsiteUrl } from '@common/utils/website';
 import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
 import { Flex, FlexRow } from '@app/shared/flex';
-import { getInfluxApi } from '@app/api';
+import { getInfluxApi } from '@app/api/website';
 import { HealthCheckStatus } from '@common/models/healthcheck-status';
 import { DurationsChart } from '@app/components/graph/durations-chart';
 
@@ -38,7 +38,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
     call();
 
     return () => clearInterval(interval);
-  });
+  }, [website]);
 
   const closeWebsiteDialog = useCallback(
     values => {

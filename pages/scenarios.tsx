@@ -1,48 +1,105 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
+import styled from 'styled-components';
+import Router from 'next/router';
 import { StatelessPage } from '@app/models/page';
 import { Button } from '@app/shared/button';
 import { Container } from '@app/shared/container';
 import { Flex, FlexRow } from '@app/shared/flex';
+import { useScenariosStore, useConfirmStore } from '@app/stores';
+import { Card } from '@app/shared/card';
+import { useDialog } from '@app/shared/dialog';
+import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
+import { ScenarioDialog } from '@app/components/dialogs/scenario-dialog';
+import { observer } from 'mobx-react-lite';
+import { Scenario } from '@common/models/scenario';
 
-const ScenariosPage: StatelessPage = (): ReactElement => {
-  // const ScenariosStore = useScenariosStore();
-  // const confirmStore = useConfirmStore();
-  // const [ScenarioDialogOpen, openScenarioDialog, onCloseScenarioDialog] = useDialog();
-  // const [data, setData] = useState<HealthCheckStatus[]>();
+const StatusLineDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 1rem;
+`;
 
-  // const Scenario = ScenariosStore.Scenarios.find(w => w._id === id);
+const StatusNameDiv = styled.div`
+  font-size: 1.15rem;
+`;
 
-  // useEffect(() => {
-  //   const call = async () => {
-  //     const statuses = await getInfluxApi(Scenario._id);
-  //     setData(statuses);
-  //   };
-  //   if (!process.browser || !Scenario) {
-  //     return;
-  //   }
-  //   const interval = setInterval(() => {
-  //     call();
-  //   }, 10000);
-  //   call();
+const ScenariosPage: StatelessPage = observer(
+  (): ReactElement => {
+    const scenariosStore = useScenariosStore();
+    const confirmStore = useConfirmStore();
+    const [scenarioDialogOpen, openScenarioDialog, onCloseScenarioDialog] = useDialog();
+    const [scenario, setScenario] = useState<Scenario>(null);
 
-  //   return () => clearInterval(interval);
-  // }, [Scenario]);
+    const closeScenarioDialog = useCallback(
+      values => {
+        if (values) {
+          if (scenario) {
+            scenariosStore.updateScenario(scenario._id, values);
+          } else {
+            scenariosStore.addScenario(values);
+          }
+        }
+        onCloseScenarioDialog();
+      },
+      [onCloseScenarioDialog, scenario, scenariosStore],
+    );
 
-  // if (!Scenario) {
-  //   return null;
-  // }
+    const deleteScenario = useCallback(
+      (scenario: Scenario) => () => {
+        confirmStore.confirm(`Are you sure to delete ${scenario.name} ?`, () =>
+          scenariosStore.removeScenario(scenario._id),
+        );
+      },
+      [confirmStore, scenariosStore],
+    );
 
-  return (
-    <Container>
-      <FlexRow>
-        <h1>Scenarios</h1>
-        <Flex></Flex>
-        <Button onClick={() => {}} style={{ marginRight: 5 }}>
-          Edit
-        </Button>
-      </FlexRow>
-    </Container>
-  );
+    const editScenarioDialog = useCallback(
+      (scenario: Scenario) => () => {
+        setScenario(scenario);
+        openScenarioDialog();
+      },
+      [openScenarioDialog],
+    );
+
+    const createScenarioDialog = useCallback(() => {
+      setScenario(null);
+      openScenarioDialog();
+    }, [openScenarioDialog]);
+
+    return (
+      <Container>
+        <ScenarioDialog scenario={scenario} open={scenarioDialogOpen} onClose={closeScenarioDialog} />
+        <FlexRow>
+          <h1>Scenarios</h1>
+          <Flex></Flex>
+          <Button onClick={createScenarioDialog} style={{ marginRight: 5 }}>
+            Add
+          </Button>
+        </FlexRow>
+        {scenariosStore.scenarios.map(scenario => (
+          <Card key={scenario._id}>
+            <StatusLineDiv>
+              <StatusNameDiv>{scenario.name}</StatusNameDiv>
+              <Flex></Flex>
+              <div>
+                <Button onClick={editScenarioDialog(scenario)}>Edit</Button>{' '}
+                <Button onClick={deleteScenario(scenario)}>X</Button>
+              </div>
+            </StatusLineDiv>
+          </Card>
+        ))}
+      </Container>
+    );
+  },
+);
+
+ScenariosPage.getInitialProps = async (_, rootStore) => {
+  if (process.browser) {
+    rootStore.scenariosStore.getScenarios();
+  }
+  return {};
 };
 
 ScenariosPage.title = 'Scenarios';
