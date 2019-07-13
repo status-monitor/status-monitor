@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { ReactElement, FunctionComponent, memo } from 'react';
 import styled, { css } from 'styled-components';
 import { dialogXPadding } from './styles';
 import { rem } from '@app/styles/mixins';
@@ -40,17 +40,14 @@ const DialogBodyDiv = styled.div`
     `}
 `;
 
-export const DialogBody: FunctionComponent<DialogBodyProps> = ({
-  children,
-  withPadding,
-  hasFooter,
-  hasHeader,
-}): ReactElement => {
-  return (
-    <DialogBodyDiv hasHeader={hasHeader} hasFooter={hasFooter} withPadding={withPadding}>
-      {children}
-    </DialogBodyDiv>
-  );
-};
+export const DialogBody: FunctionComponent<DialogBodyProps> = memo(
+  ({ children, withPadding, hasFooter, hasHeader }): ReactElement => {
+    return (
+      <DialogBodyDiv hasHeader={hasHeader} hasFooter={hasFooter} withPadding={withPadding}>
+        {children}
+      </DialogBodyDiv>
+    );
+  },
+);
 
 (DialogBody as any).componentName = 'DialogBody';

@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, CSSProperties } from 'react';
+import React, { ReactElement, FunctionComponent, CSSProperties, memo } from 'react';
 import styled, { css } from 'styled-components';
 import {
   primaryButtonBackground,
@@ -105,10 +105,12 @@ interface ButtonProps {
   style?: CSSProperties;
 }
 
-export const Button: FunctionComponent<ButtonProps> = ({ children, onClick, theme, style }): ReactElement => {
-  return (
-    <StyledButton onClick={onClick} theme={theme || 'primary'} style={style}>
-      {children}
-    </StyledButton>
-  );
-};
+export const Button: FunctionComponent<ButtonProps> = memo(
+  ({ children, onClick, theme, style }): ReactElement => {
+    return (
+      <StyledButton onClick={onClick} theme={theme || 'primary'} style={style}>
+        {children}
+      </StyledButton>
+    );
+  },
+);

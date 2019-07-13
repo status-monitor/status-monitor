@@ -1,7 +1,7 @@
 import HtmlHead from 'next/head';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 
-export const Head: FunctionComponent<{ title: string }> = ({ title, children }) => {
+export const Head: FunctionComponent<{ title: string }> = memo(({ title, children }) => {
   return (
     <HtmlHead>
       <title>{title} - Uptime</title>
@@ -11,4 +11,4 @@ export const Head: FunctionComponent<{ title: string }> = ({ title, children }) 
       {children}
     </HtmlHead>
   );
-};
+});

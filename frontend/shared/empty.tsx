@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { ReactElement, FunctionComponent, memo } from 'react';
 import styled from 'styled-components';
 import { Button } from './button';
 import { appBarHeight } from '@app/styles/variables';
@@ -25,20 +25,22 @@ interface EmptyProps {
   subtitle?: string;
 }
 
-export const Empty: FunctionComponent<EmptyProps> = ({ onClick, title, buttonText, subtitle }): ReactElement => {
-  return (
-    <StyledEmpty>
-      <Card>
-        <Container>
-          <h1>{title}</h1>
-          {subtitle && (
-            <h3>
-              <small>{subtitle}</small>
-            </h3>
-          )}
-          <Button onClick={onClick}>{buttonText}</Button>
-        </Container>
-      </Card>
-    </StyledEmpty>
-  );
-};
+export const Empty: FunctionComponent<EmptyProps> = memo(
+  ({ onClick, title, buttonText, subtitle }): ReactElement => {
+    return (
+      <StyledEmpty>
+        <Card>
+          <Container>
+            <h1>{title}</h1>
+            {subtitle && (
+              <h3>
+                <small>{subtitle}</small>
+              </h3>
+            )}
+            <Button onClick={onClick}>{buttonText}</Button>
+          </Container>
+        </Card>
+      </StyledEmpty>
+    );
+  },
+);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, FunctionComponent, ChangeEvent } from 'react';
+import React, { ReactElement, FunctionComponent, ChangeEvent, memo } from 'react';
 import styled from 'styled-components';
 import { StyledLabel, StyledFormElement } from './_styles';
 
@@ -14,11 +14,13 @@ interface InputProps {
   type?: string;
 }
 
-export const Input: FunctionComponent<InputProps> = ({ type, value, onChange, label }): ReactElement => {
-  return (
-    <>
-      {label && <StyledLabel>{label}</StyledLabel>}
-      <StyledInput value={value} type={type || 'text'} onChange={onChange} />
-    </>
-  );
-};
+export const Input: FunctionComponent<InputProps> = memo(
+  ({ type, value, onChange, label }): ReactElement => {
+    return (
+      <>
+        {label && <StyledLabel>{label}</StyledLabel>}
+        <StyledInput value={value} type={type || 'text'} onChange={onChange} />
+      </>
+    );
+  },
+);

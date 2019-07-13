@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, memo } from 'react';
 import { Dialog, DialogFooter, DialogHeader, DialogBody } from '@app/shared/dialog';
 import { Button } from '@app/shared/button';
 import { Input } from '@app/shared/form/input';
@@ -11,27 +11,29 @@ interface WebsiteDialogProps {
   onClose: (values?: Settings['aws']) => void;
 }
 
-export const AwsDialog: React.FC<WebsiteDialogProps> = ({ open, onClose }): ReactElement => {
-  const [accessKey, bindAccessKey, setAccessKey] = useFormValue<string>('');
-  const [secretKey, bindSecretKey, setSecretKey] = useFormValue<string>('');
+export const AwsDialog: React.FC<WebsiteDialogProps> = memo(
+  ({ open, onClose }): ReactElement => {
+    const [accessKey, bindAccessKey, setAccessKey] = useFormValue<string>('');
+    const [secretKey, bindSecretKey, setSecretKey] = useFormValue<string>('');
 
-  const close = (values?: Settings['aws']) => {
-    onClose(values);
-    setAccessKey('');
-    setSecretKey('');
-  };
+    const close = (values?: Settings['aws']) => {
+      onClose(values);
+      setAccessKey('');
+      setSecretKey('');
+    };
 
-  return (
-    <Dialog isOpen={open} onClose={close}>
-      <DialogHeader>Set AWS credentials</DialogHeader>
-      <DialogBody withPadding={true}>
-        <Input label="Access Key" {...bindAccessKey} />
-        <Input label="Secret Key" {...bindSecretKey} />
-      </DialogBody>
-      <DialogFooter>
-        <Flex />
-        <Button onClick={() => close({ accessKey, secretKey })}>Save</Button>
-      </DialogFooter>
-    </Dialog>
-  );
-};
+    return (
+      <Dialog isOpen={open} onClose={close}>
+        <DialogHeader>Set AWS credentials</DialogHeader>
+        <DialogBody withPadding={true}>
+          <Input label="Access Key" {...bindAccessKey} />
+          <Input label="Secret Key" {...bindSecretKey} />
+        </DialogBody>
+        <DialogFooter>
+          <Flex />
+          <Button onClick={() => close({ accessKey, secretKey })}>Save</Button>
+        </DialogFooter>
+      </Dialog>
+    );
+  },
+);

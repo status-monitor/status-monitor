@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { ReactElement, FunctionComponent, memo } from 'react';
 import styled from 'styled-components';
 import { rem } from '@app/styles/mixins';
 import { textColor } from '@app/styles/variables';
@@ -30,17 +30,15 @@ const CloseButtonA = styled.a`
   cursor: pointer;
 `;
 
-export const DialogHeader: FunctionComponent<DialogHeaderProps> = ({
-  children,
-  onClose,
-  dismissable,
-}): ReactElement => {
-  return (
-    <DialogHeaderDiv>
-      <div>{children}</div>
-      {dismissable && <CloseButtonA onClick={onClose}>&times;</CloseButtonA>}
-    </DialogHeaderDiv>
-  );
-};
+export const DialogHeader: FunctionComponent<DialogHeaderProps> = memo(
+  ({ children, onClose, dismissable }): ReactElement => {
+    return (
+      <DialogHeaderDiv>
+        <div>{children}</div>
+        {dismissable && <CloseButtonA onClick={onClose}>&times;</CloseButtonA>}
+      </DialogHeaderDiv>
+    );
+  },
+);
 
 (DialogHeader as any).componentName = 'DialogHeader';

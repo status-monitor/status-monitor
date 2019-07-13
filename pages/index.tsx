@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useMemo, useCallback } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Container } from '@app/shared/container';
 import { useWebsitesStore } from '@app/stores';
@@ -14,21 +14,24 @@ const IndexPage: StatelessPage = observer(
     const websitesStore = useWebsitesStore();
     const [websiteDialogOpen, openWebsiteDialog, onCloseWebsiteDialog] = useDialog();
 
+    const onCloseDialog = useCallback(
+      values => {
+        if (values) {
+          websitesStore.addWebsite(values);
+        }
+        onCloseWebsiteDialog();
+      },
+      [onCloseWebsiteDialog, websitesStore],
+    );
+
+    const websiteDialog = useMemo(() => <WebsiteDialog open={websiteDialogOpen} onClose={onCloseDialog} />, [
+      onCloseDialog,
+      websiteDialogOpen,
+    ]);
+
     if (!websitesStore.websites) {
       return null;
     }
-
-    const websiteDialog = (
-      <WebsiteDialog
-        open={websiteDialogOpen}
-        onClose={values => {
-          if (values) {
-            websitesStore.addWebsite(values);
-          }
-          onCloseWebsiteDialog();
-        }}
-      />
-    );
 
     if (!websitesStore.websites.length) {
       return (

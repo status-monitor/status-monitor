@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 import styled from 'styled-components';
 import { AppHeader } from './header';
 import { textColor } from '@app/styles/variables';
@@ -9,7 +9,7 @@ const BodyDiv = styled.div`
   color: ${textColor};
 `;
 
-export const AppLayout: FunctionComponent = ({ children }) => {
+export const AppLayout: FunctionComponent = memo(({ children }) => {
   return (
     <BodyDiv>
       <AppHeader />
@@ -17,4 +17,4 @@ export const AppLayout: FunctionComponent = ({ children }) => {
       {children}
     </BodyDiv>
   );
-};
+});

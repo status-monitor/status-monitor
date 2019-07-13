@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { ReactElement, FunctionComponent, memo } from 'react';
 import styled from 'styled-components';
 import { dialogXPadding } from './styles';
 import { rem } from '@app/styles/mixins';
@@ -19,8 +19,10 @@ const DialogFooterDiv = styled.div`
   }
 `;
 
-export const DialogFooter: FunctionComponent = ({ children }): ReactElement => {
-  return <DialogFooterDiv>{children}</DialogFooterDiv>;
-};
+export const DialogFooter: FunctionComponent = memo(
+  ({ children }): ReactElement => {
+    return <DialogFooterDiv>{children}</DialogFooterDiv>;
+  },
+);
 
 (DialogFooter as any).componentName = 'DialogFooter';

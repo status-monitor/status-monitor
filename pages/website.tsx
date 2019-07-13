@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState, useCallback } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Button } from '@app/shared/button';
 import { useWebsitesStore, useConfirmStore } from '@app/stores';
@@ -38,7 +38,24 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
     call();
 
     return () => clearInterval(interval);
-  }, [website]);
+  });
+
+  const closeWebsiteDialog = useCallback(
+    values => {
+      if (values) {
+        websitesStore.updateWebsite(website._id, values);
+      }
+      onCloseWebsiteDialog();
+    },
+    [onCloseWebsiteDialog, website._id, websitesStore],
+  );
+
+  const deleteWebsite = useCallback(() => {
+    confirmStore.confirm(`Are you sure to delete ${website.name} ?`, () => {
+      websitesStore.removeWebsite(website._id);
+      Router.push('/');
+    });
+  }, [confirmStore, website._id, website.name, websitesStore]);
 
   if (!website) {
     return null;
@@ -46,16 +63,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
 
   return (
     <Container>
-      <WebsiteDialog
-        website={website}
-        open={websiteDialogOpen}
-        onClose={values => {
-          if (values) {
-            websitesStore.updateWebsite(website._id, values);
-          }
-          onCloseWebsiteDialog();
-        }}
-      />
+      <WebsiteDialog website={website} open={websiteDialogOpen} onClose={closeWebsiteDialog} />
       <FlexRow>
         <h1>
           {website.name} <small>{getWebsiteUrl(website)}</small>
@@ -64,15 +72,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
         <Button onClick={openWebsiteDialog} style={{ marginRight: 5 }}>
           Edit
         </Button>
-        <Button
-          onClick={() => {
-            confirmStore.confirm(`Are you sure to delete ${website.name} ?`, () => {
-              websitesStore.removeWebsite(website._id);
-              Router.push('/');
-            });
-          }}
-          theme="light"
-        >
+        <Button onClick={deleteWebsite} theme="light">
           Delete
         </Button>
       </FlexRow>

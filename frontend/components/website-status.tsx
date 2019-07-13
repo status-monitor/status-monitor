@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, memo } from 'react';
 import styled, { css } from 'styled-components';
 import { Website } from '@common/models/website';
 import { Card } from '@app/shared/card';
@@ -65,19 +65,22 @@ const StatusUptimeDiv = styled.div`
   text-align: right;
 `;
 
-export const WebsiteStatus: React.FC<{ website: Website }> = ({ website }): ReactElement => {
-  return (
-    <Card onClick={() => Router.push(`/website?id=${website._id}`)}>
-      <StatusLineDiv>
-        <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
-        <StatusNameDiv>
-          {website.name} <small>{getWebsiteUrl(website)}</small>
-        </StatusNameDiv>
-        {website.status && website.status.duration && (
-          <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>
-        )}
-        {website.status && <StatusUptimeDiv>{getFormattedUptime(website.status.uptime)} up</StatusUptimeDiv>}
-      </StatusLineDiv>
-    </Card>
-  );
-};
+export const WebsiteStatus: React.FC<{ website: Website }> = memo(
+  ({ website }): ReactElement => {
+    const onClickCard = useCallback(() => Router.push(`/website?id=${website._id}`), [website._id]);
+    return (
+      <Card onClick={onClickCard}>
+        <StatusLineDiv>
+          <StatusIndicatorDiv status={website.isAlive ? 'success' : 'error'} />
+          <StatusNameDiv>
+            {website.name} <small>{getWebsiteUrl(website)}</small>
+          </StatusNameDiv>
+          {website.status && website.status.duration && (
+            <StatusDurationDiv>{website.status.duration}ms</StatusDurationDiv>
+          )}
+          {website.status && <StatusUptimeDiv>{getFormattedUptime(website.status.uptime)} up</StatusUptimeDiv>}
+        </StatusLineDiv>
+      </Card>
+    );
+  },
+);

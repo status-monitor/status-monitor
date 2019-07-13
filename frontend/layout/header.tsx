@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -42,7 +42,7 @@ const TitleDiv = styled.div`
   }
 `;
 
-export const AppHeader: FunctionComponent = () => {
+export const AppHeader: FunctionComponent = memo(() => {
   return (
     <AppBar>
       <TitleDiv onClick={() => Router.push('/')}>
@@ -60,4 +60,4 @@ export const AppHeader: FunctionComponent = () => {
       </Link>
     </AppBar>
   );
-};
+});

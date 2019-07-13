@@ -19,6 +19,7 @@ module.exports =  {
       '@typescript-eslint/no-use-before-define': 0,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'react/prop-types': 0
+      'react/prop-types': 0,
+      'react/display-name': 0
     }
   };

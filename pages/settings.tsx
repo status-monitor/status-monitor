@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 import { StatelessPage } from '@app/models/page';
 import { Container } from '@app/shared/container';
 import { observer } from 'mobx-react-lite';
@@ -31,6 +31,17 @@ const SettingsPage: StatelessPage<{ settings: Settings }> = observer(
       [onCloseAwsDialog],
     );
 
+    const saveSlackSettings = useCallback(
+      () =>
+        putSettingsApi({
+          slack: {
+            channel: slackChannel,
+            webhookUrl: slackWebhook,
+          },
+        }),
+      [slackChannel, slackWebhook],
+    );
+
     return (
       <Container>
         <Card>
@@ -55,18 +66,7 @@ const SettingsPage: StatelessPage<{ settings: Settings }> = observer(
             <Input label="Webhook url" {...bindSlackWebhook} />
             <br />
             <Input label="Slack channel" {...bindSlackChannel} />
-            <Button
-              onClick={() => {
-                putSettingsApi({
-                  slack: {
-                    channel: slackChannel,
-                    webhookUrl: slackWebhook,
-                  },
-                });
-              }}
-            >
-              Save
-            </Button>
+            <Button onClick={saveSlackSettings}>Save</Button>
           </Container>
         </Card>
       </Container>
