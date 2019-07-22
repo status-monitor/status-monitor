@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   formElementBorderColor,
   formElementBackground,
@@ -13,7 +13,7 @@ export const StyledLabel = styled.label`
   margin-bottom: 0.5rem;
 `;
 
-export const StyledFormElement = styled.input`
+export const styledFormElementBase = css`
   border: 1px solid ${formElementBorderColor};
   font-weight: 400;
   font-size: 0.875rem;

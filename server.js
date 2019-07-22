@@ -4,6 +4,7 @@ const next = require('next');
 const compression = require('compression');
 const favicon = require('serve-favicon');
 const helmet = require('helmet')
+const bodyParser = require('body-parser');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -26,11 +27,12 @@ if (dev) {
         }
     }
     loadRouter();
-    require('./api/queue.ts')
-    chokidar.watch('./backend').on('change', (event, path) => {
+    require('./api/queue.ts');
+    console.log('Loaded queue. Starting watcher...')
+    chokidar.watch('./api/**/*').on('change', (event, path) => {
         console.warn('\nFiles changed. Reloaded the server.');
         Object.keys(require.cache).forEach((id) => {
-            if (id.indexOf('backend/') > -1) {
+            if (id.indexOf('api/') > -1) {
                 delete require.cache[id];
             }
         });
@@ -56,6 +58,8 @@ app.prepare()
         server.use(helmet());
         server.use(compression());
         server.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
+
+        server.use(bodyParser.json())
 
         server.use('/api', (req, res, next) => {
             router(req, res, next);

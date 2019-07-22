@@ -4,7 +4,7 @@ import { Container } from '@app/shared/container';
 import { observer } from 'mobx-react-lite';
 import { Card } from '@app/shared/card';
 import { Input } from '@app/shared/form/input';
-import { putSettingsApi, getSettingsApi, putAwsSettingsApi } from '@app/api';
+import { putSettingsApi, getSettingsApi, putAwsSettingsApi } from '@app/api/settings';
 import { Button } from '@app/shared/button';
 import { useFormValue } from '@app/shared/form/hooks';
 import { useDialog } from '@app/shared/dialog';

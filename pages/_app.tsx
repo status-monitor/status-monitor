@@ -27,6 +27,8 @@ class MyApp extends App<MyAppProps> {
     }
 
     await rootStore.websitesStore.getWebsites(true);
+    await rootStore.scenariosStore.getScenarios(true);
+
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx, rootStore);
     }

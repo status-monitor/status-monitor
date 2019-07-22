@@ -4,7 +4,7 @@
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
-    "lint": "eslint 'app/**/*.ts' 'app/**/*.tsx' 'common/**/*.ts' 'api/**/*.ts'",
+    "lint": "eslint 'api/**/*.ts' 'frontend/**/*.ts' 'frontend/**/*.tsx'",
     "tsc": "tsc",
     "test": "echo \"no test specified\" && exit 0",
     "dev": "node server.js",

@@ -34,7 +34,6 @@ export const DurationsChart: FunctionComponent<DurationsChartProps> = memo(
         }),
       },
     ];
-    //   console.log(data);
 
     return (
       <Card>
