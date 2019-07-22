@@ -6,7 +6,7 @@ export interface Scenario {
   interval: number;
 }
 
-interface ScenarioZone {
+export interface ScenarioZone {
   type: 'aws' | 'self';
   id?: string;
 }

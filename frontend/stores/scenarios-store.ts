@@ -1,23 +1,27 @@
 import { observable } from 'mobx';
 import { deleteScenarioApi, getScenariosApi, patchScenarioApi, postScenarioApi } from '@app/api/scenario';
 import { RootStore } from './root-store';
-import { Scenario } from '@common/models/scenario';
+import { Scenario, ScenarioZone } from '@common/models/scenario';
+import { getZonesApi } from '@app/api/zone';
 
 export class ScenariosStore {
   public rootStore: RootStore;
 
   @observable
   public scenarios: Scenario[];
+  public zones: ScenarioZone[];
 
   public constructor(rootStore: RootStore, data: any) {
     this.rootStore = rootStore;
 
     this.scenarios = data && data.scenarios;
+    this.zones = data && data.zones;
   }
 
   public toJson() {
     return {
       scenarios: this.scenarios,
+      zones: this.zones,
     };
   }
 
@@ -44,5 +48,13 @@ export class ScenariosStore {
     }
     const { scenarios } = await getScenariosApi();
     this.scenarios = scenarios;
+  }
+
+  public async getZones(dontOverride?: boolean) {
+    if (this.zones && dontOverride) {
+      return;
+    }
+    const { zones } = await getZonesApi();
+    this.zones = zones;
   }
 }

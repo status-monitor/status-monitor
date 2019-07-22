@@ -2,6 +2,7 @@
 // import { notifySlack } from './modules/notify/service';
 import { loadWebsiteIntervalWatcher } from './queue/website-interval';
 import { loadScenariosFixtures } from './modules/scenarios/fixtures';
+import { upsertLambdaFunctions } from './modules/aws/services';
 
 // setInterval(() => {
 //   websites.forEach(website => checkWebsite(website));
@@ -9,3 +10,4 @@ import { loadScenariosFixtures } from './modules/scenarios/fixtures';
 // }, 10000);
 loadWebsiteIntervalWatcher();
 loadScenariosFixtures();
+upsertLambdaFunctions();

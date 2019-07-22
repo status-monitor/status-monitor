@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { upsertSettings, findOneSettings } from './dao';
-import { listLambdaFunctions } from '../aws/services';
+import { listLambdaFunctions, upsertLambdaFunctions } from '../aws/services';
 import { APIError } from '@api/models/api-error';
 import { encrypt } from '@api/utils/encrypt';
 
@@ -28,12 +28,13 @@ export const loadSettingsRoutes = (router: Router): void => {
           throw new APIError(403, new Error('Invalid Credentials'));
         }
 
-        upsertSettings({
+        await upsertSettings({
           aws: {
             accessKey: encrypt(req.body.accessKey),
             secretKey: encrypt(req.body.secretKey),
           },
         });
+        upsertLambdaFunctions();
         res.send();
       } catch (e) {
         next(e);
