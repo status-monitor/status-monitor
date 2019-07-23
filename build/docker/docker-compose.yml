@@ -1,0 +1,22 @@
+version: '3'
+services:
+  statusmonitor:
+    image: statusmonitor/website:0.1.0
+    container_name: "statusmonitor_website"
+    ports:
+      - 3000:3000
+    environment:
+      INFLUXDB_HOST: influx
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+  influx:
+    image: influxdb:1.6
+    container_name: "statusmonitor_influxdb"
+  mongo:
+    image: mongo:4
+    container_name: "statusmonitor_mongodb"
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    container_name: "statusmonitor_rabbitmq"

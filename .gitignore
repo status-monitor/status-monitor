@@ -2,6 +2,5 @@
 **/.DS_Store
 **/node_modules
 lambda.zip
-build
 .next
 dist-api

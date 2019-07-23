@@ -30,7 +30,7 @@ export const config: Config = {
   encryptionKey: process.env.ENCRYPTION_KEY || 'jN8JTgTii_!HRQWqyDT*rCaK6r.dXXpp',
   influxDb: {
     database: 'checks',
-    host: 'localhost',
+    host: process.env.INFLUXDB_HOST || 'localhost',
   },
   rabbitmq: {
     host: process.env.RABBITMQ_HOST || 'localhost',
