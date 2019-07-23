@@ -45,10 +45,14 @@ export const ScenarioDialog: React.FC<WebsiteDialogProps> = observer(
     const zonesOptions = useMemo(
       () =>
         scenariosStore.zones
-          ? scenariosStore.zones.map(zone => ({
-              label: zone.type === 'self' ? 'Self' : `AWS - ${zone.id}`,
-              value: zone,
-            }))
+          ? scenariosStore.zones
+              .map(zone => ({
+                label: zone.type === 'self' ? 'Self' : `AWS - ${zone.id}`,
+                value: zone,
+              }))
+              .sort((zone1, zone2) =>
+                getUniqueStringFromZone(zone1.value) > getUniqueStringFromZone(zone2.value) ? 1 : -1,
+              )
           : [],
       [scenariosStore.zones],
     );
