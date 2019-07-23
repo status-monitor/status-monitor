@@ -12,7 +12,7 @@ class InfluxDb {
           website: Influx.FieldType.STRING,
           isAlive: Influx.FieldType.INTEGER,
           duration: Influx.FieldType.FLOAT,
-          location: Influx.FieldType.STRING,
+          zoneId: Influx.FieldType.STRING,
         },
         tags: ['host'],
       },

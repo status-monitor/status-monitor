@@ -1,6 +1,6 @@
 import { mongo } from '@api/db/mongodb';
 import { Website } from '@common/models/website';
-import { ObjectId } from 'bson';
+import { ObjectId, ObjectID } from 'bson';
 
 export const findAllWebsites = async (): Promise<Website[]> => {
   await mongo.waitReady();
@@ -23,6 +23,7 @@ export const insertOneWebsite = async (website: Website): Promise<Website> => {
     name: website.name,
     path: website.path,
     protocol: website.protocol,
+    scenarioId: new ObjectID(website.scenarioId),
     isAlive: true,
   });
   return response.ops[0];
@@ -33,7 +34,10 @@ export const patchOneWebsite = async (_id: string, website: Partial<Website>): P
   await mongo.db.collection('websites').updateOne(
     { _id: new ObjectId(_id) },
     {
-      $set: website,
+      $set: {
+        ...website,
+        scenarioId: new ObjectID(website.scenarioId),
+      },
     },
   );
 };

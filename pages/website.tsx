@@ -27,6 +27,9 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
   useEffect(() => {
     const call = async () => {
       const statuses = await getInfluxApi(website._id);
+      if (!statuses.length) {
+        return;
+      }
       setData(statuses);
     };
     if (!process.browser || !website) {

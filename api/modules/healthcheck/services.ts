@@ -6,9 +6,11 @@ import { getWebsiteUrl } from '@common/utils/website';
 import { ScenarioZone } from '@common/models/scenario';
 import { AwsZone } from '../aws/models';
 import { getAwsClient, LambdaFunctionName } from '../aws/services';
+import { getUniqueStringFromZone } from '@common/utils/zone';
 
 export const checkWebsite = async (website: Website, zone: ScenarioZone): Promise<boolean> => {
   const websiteUrl = getWebsiteUrl(website);
+  const zoneId = getUniqueStringFromZone(zone);
   try {
     const healthCheck =
       zone.type === 'aws'
@@ -17,12 +19,12 @@ export const checkWebsite = async (website: Website, zone: ScenarioZone): Promis
     if (healthCheck.status !== 200) {
       throw new Error(`${healthCheck.status}`);
     }
-    writeHealthcheckStatus({ website: website._id, location: 'Self hosted', isAlive: 1, duration: healthCheck.ms });
+    writeHealthcheckStatus({ website: website._id, zoneId, isAlive: 1, duration: healthCheck.ms });
     console.log(healthCheck);
     return true;
   } catch (e) {
     console.log(e.message);
-    writeHealthcheckStatus({ website: website._id, location: 'Self hosted', isAlive: 0 });
+    writeHealthcheckStatus({ website: website._id, zoneId, isAlive: 0 });
     return false;
   }
 };

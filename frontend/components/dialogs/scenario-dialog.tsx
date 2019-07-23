@@ -5,10 +5,11 @@ import { Input } from '@app/shared/form/input';
 import { Flex } from '@app/shared/flex';
 import { Select } from '@app/shared/form/select';
 import { useFormValue } from '@app/shared/form/hooks';
-import { Scenario, ScenarioZone } from '@common/models/scenario';
+import { Scenario } from '@common/models/scenario';
 import { useScenariosStore } from '@app/stores';
 import { observer } from 'mobx-react-lite';
 import { SelectMultiple } from '@app/shared/form/select-multiple';
+import { getUniqueStringFromZone } from '@common/utils/zone';
 
 interface WebsiteDialogProps {
   scenario?: Scenario;
@@ -67,7 +68,7 @@ export const ScenarioDialog: React.FC<WebsiteDialogProps> = observer(
           <SelectMultiple
             options={zonesOptions}
             label="Zones"
-            toUniqueString={(zone: ScenarioZone) => `${zone.type}${zone.id}`}
+            toUniqueString={getUniqueStringFromZone}
             {...bindZones}
           />
         </DialogBody>

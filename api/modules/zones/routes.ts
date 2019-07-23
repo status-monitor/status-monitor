@@ -12,12 +12,11 @@ export const loadZonesRoutes = (router: Router): void => {
           type: 'self',
         },
       ];
-      if (settings.aws && settings.aws.installedFunctions) {
+      if (settings && settings.aws && settings.aws.installedFunctions) {
         Object.keys(settings.aws.installedFunctions).forEach(zone => {
           zones.push({ type: 'aws', id: zone });
         });
       }
-      settings.aws;
       res.send({
         zones,
       });
