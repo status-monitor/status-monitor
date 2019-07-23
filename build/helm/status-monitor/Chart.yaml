@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "0.1.0"
 description: Helm chart for Status Monitor
 name: status-monitor
-version: 0.1.0
+version: 0.1.0-alpha1
