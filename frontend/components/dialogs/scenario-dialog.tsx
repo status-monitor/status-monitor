@@ -1,11 +1,14 @@
-import React, { ReactElement, memo, useCallback, useEffect } from 'react';
+import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { Dialog, DialogFooter, DialogHeader, DialogBody } from '@app/shared/dialog';
 import { Button } from '@app/shared/button';
 import { Input } from '@app/shared/form/input';
 import { Flex } from '@app/shared/flex';
 import { Select } from '@app/shared/form/select';
 import { useFormValue } from '@app/shared/form/hooks';
-import { Scenario } from '@common/models/scenario';
+import { Scenario, ScenarioZone } from '@common/models/scenario';
+import { useScenariosStore } from '@app/stores';
+import { observer } from 'mobx-react-lite';
+import { SelectMultiple } from '@app/shared/form/select-multiple';
 
 interface WebsiteDialogProps {
   scenario?: Scenario;
@@ -27,19 +30,33 @@ const options = [
   { label: 'Every day', value: 86400 },
 ];
 
-export const ScenarioDialog: React.FC<WebsiteDialogProps> = memo(
+export const ScenarioDialog: React.FC<WebsiteDialogProps> = observer(
   ({ open, onClose, scenario }): ReactElement => {
+    const scenariosStore = useScenariosStore();
     const [name, bindName, setName] = useFormValue<string>(scenario ? scenario.name : '');
     const [interval, bindInterval, setIntervalValue] = useFormValue<Scenario['interval']>(
       scenario ? scenario.interval : null,
     );
+    const [zones, bindZones, setZones] = useFormValue<Scenario['zones']>(scenario ? scenario.zones : []);
 
-    const closeDialog = useCallback(() => onClose({ name, interval, zones: [] }), [interval, name, onClose]);
+    const closeDialog = useCallback(() => onClose({ name, interval, zones }), [interval, name, onClose, zones]);
+
+    const zonesOptions = useMemo(
+      () =>
+        scenariosStore.zones
+          ? scenariosStore.zones.map(zone => ({
+              label: zone.type === 'self' ? 'Self' : `AWS - ${zone.id}`,
+              value: zone,
+            }))
+          : [],
+      [scenariosStore.zones],
+    );
 
     useEffect(() => {
       setName(scenario ? scenario.name : '');
       setIntervalValue(scenario ? scenario.interval : null);
-    }, [scenario, setIntervalValue, setName]);
+      setZones(scenario ? scenario.zones : []);
+    }, [scenario, setIntervalValue, setName, setZones]);
 
     return (
       <Dialog isOpen={open} onClose={onClose}>
@@ -47,6 +64,12 @@ export const ScenarioDialog: React.FC<WebsiteDialogProps> = memo(
         <DialogBody withPadding={true}>
           <Input label="Name" {...bindName} />
           <Select options={options} label="Interval" toInteger {...bindInterval} />
+          <SelectMultiple
+            options={zonesOptions}
+            label="Zones"
+            toUniqueString={(zone: ScenarioZone) => `${zone.type}${zone.id}`}
+            {...bindZones}
+          />
         </DialogBody>
         <DialogFooter>
           <Flex />

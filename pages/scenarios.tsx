@@ -96,8 +96,11 @@ const ScenariosPage: StatelessPage = observer(
 );
 
 ScenariosPage.getInitialProps = async (_, rootStore) => {
+  const zonesPromise = rootStore.scenariosStore.getZones();
   if (process.browser) {
     rootStore.scenariosStore.getScenarios();
+  } else {
+    await zonesPromise;
   }
   return {};
 };

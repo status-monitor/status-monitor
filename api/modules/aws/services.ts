@@ -1,16 +1,30 @@
-import aws, { AWSError } from 'aws-sdk';
+import aws, { AWSError, Lambda } from 'aws-sdk';
 import { getAwsSettings } from '../settings/services';
 import { Settings } from '@common/models/settings';
 import { APIError } from '@api/models/api-error';
 import { FunctionConfiguration } from 'aws-sdk/clients/greengrass';
 import { upsertSettings } from '../settings/dao';
-import { AwsZone } from './models';
+import { AwsZone, awsZones } from './models';
 import { PromiseResult } from 'aws-sdk/lib/request';
 import { ListFunctionsResponse } from 'aws-sdk/clients/lambda';
 
-const LambdaFunctionName = 'Status-Monitor-OSS-Checker';
+export const LambdaFunctionName = 'Status-Monitor-OSS-Checker';
 const version = 1;
 const LambdaZipFileVersion = `lambda-r${version}.zip`;
+
+export const getAwsClient = async (region: AwsZone): Promise<Lambda> => {
+  const settings = await getAwsSettings();
+
+  if (!settings || !settings.accessKey || !settings.secretKey) {
+    throw new APIError(400, new Error('AWS_NOT_CONFIGURED'));
+  }
+
+  return new aws.Lambda({
+    accessKeyId: settings.accessKey,
+    secretAccessKey: settings.secretKey,
+    region,
+  });
+};
 
 export const upsertLambdaFunctions = async (): Promise<void> => {
   const settings = await getAwsSettings();
@@ -18,8 +32,7 @@ export const upsertLambdaFunctions = async (): Promise<void> => {
     return;
   }
 
-  upsertLambdaFunction('eu-west-2', settings);
-  // upsertLambdaFunction('eu-west-2', settings);
+  awsZones.forEach(zone => upsertLambdaFunction(zone, settings));
 };
 
 const upsertLambdaFunction = async (region: AwsZone, settings: Settings['aws']): Promise<void> => {
@@ -27,6 +40,8 @@ const upsertLambdaFunction = async (region: AwsZone, settings: Settings['aws']):
   if (lambdaFunction) {
     if (!settings.installedFunctions || settings.installedFunctions[region] !== LambdaZipFileVersion) {
       await updateLambdaFunction(region, settings);
+    } else {
+      updateSettings(region);
     }
   } else {
     console.log(`Creating function ${LambdaFunctionName}`);
@@ -65,11 +80,15 @@ export const createLambdaFunction = async (region: AwsZone, settings?: Settings[
       if (err) {
         throw err;
       }
-      upsertSettings({
-        [`aws.installedFunctions.${region}`]: LambdaZipFileVersion,
-      });
+      updateSettings(region);
     },
   );
+};
+
+const updateSettings = async (region: string) => {
+  upsertSettings({
+    [`aws.installedFunctions.${region}`]: LambdaZipFileVersion,
+  });
 };
 
 export const updateLambdaFunction = async (region: AwsZone, settings?: Settings['aws']): Promise<void> => {
@@ -99,9 +118,7 @@ export const updateLambdaFunction = async (region: AwsZone, settings?: Settings[
       if (err) {
         throw err;
       }
-      upsertSettings({
-        [`aws.installedFunctions.${region}`]: LambdaZipFileVersion,
-      });
+      updateSettings(region);
     },
   );
 };

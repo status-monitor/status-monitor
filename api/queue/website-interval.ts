@@ -33,7 +33,8 @@ const listen = async (): Promise<void> => {
         if (!scenario || moment().unix() % scenario.interval !== 0) {
           return;
         }
-        const isAlive = await checkWebsite(website);
+        const isAliveCalls = await Promise.all(scenario.zones.map(zone => checkWebsite(website, zone)));
+        const isAlive = isAliveCalls.every(call => !!call);
         if (website.isAlive !== isAlive) {
           patchOneWebsite(website._id, {
             isAlive,
