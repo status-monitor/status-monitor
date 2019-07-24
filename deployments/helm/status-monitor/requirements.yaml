@@ -1,0 +1,10 @@
+dependencies:
+- name: influxdb
+  version: 1.2.1
+  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: mongodb
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 5.16.0
+- name: rabbitmq-ha
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 1.30.0

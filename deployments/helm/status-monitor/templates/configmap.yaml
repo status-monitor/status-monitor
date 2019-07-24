@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  INFLUXDB_HOST: status-monitor-influxdb.status-monitor
+  MONGO_HOST: status-monitor-mongodb.status-monitor
+  MONGO_PORT: "27017"
+  RABBITMQ_HOST: status-monitor-rabbitmq-ha.status-monitor
+  RABBITMQ_PORT: "5672"
+
