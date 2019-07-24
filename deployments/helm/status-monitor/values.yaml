@@ -46,3 +46,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+mongodb:
+  usePassword: false
+  replicaSet:
+    enabled: true
+
+rabbitmq-ha:
+  rabbitmqUsername: guest
+  rabbitmqPassword: guest
+  persistentVolume:
+    enabled: true
