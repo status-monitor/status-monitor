@@ -30,7 +30,7 @@ Installing the [helm chart](https://github.com/status-monitor/charts) will insta
 
 `helm repo index --url https://status-monitor.github.io/charts ../charts`
 
-`helm upgrade --namespace status-monitor status-monitor status-monitor/status-monitor --install`
+`helm upgrade --namespace status-monitor status-monitor status-monitor/status-monitor --set encryptionKey=XXXXX --install`
 
 You'll need to install an Ingress, a VirtualService (istio), or any equivalent to make the service available on port 3000.
 
