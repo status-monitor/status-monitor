@@ -66,7 +66,7 @@ If you go to the settings tabs, you can configure :
 }
 ```
 
-#### AWS supported regions
+## AWS supported regions
 
 - us-east-1
 - us-east-2
@@ -89,7 +89,9 @@ If you go to the settings tabs, you can configure :
 ## Help development
 
 `npm install`
+
 `docker-compose up -d`
+
 `npm run dev`
 
 Our stack is :
