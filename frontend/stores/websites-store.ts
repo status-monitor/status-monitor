@@ -28,28 +28,15 @@ export class WebsitesStore {
   }
 
   public addWebsite = async (website: Website) => {
-    const result = await postWebsiteApi({
-      host: website.host,
-      name: website.name,
-      path: website.path,
-      protocol: website.protocol,
-      scenarioId: website.scenarioId,
-    });
+    const result = await postWebsiteApi(website);
     this.websites = [...this.websites, result.website];
   };
 
-  public updateWebsite = async (id: string, website: Website) => {
-    const patchValue = {
-      host: website.host,
-      name: website.name,
-      path: website.path,
-      protocol: website.protocol,
-      scenarioId: website.scenarioId,
-    };
+  public updateWebsite = async (id: string, website: Partial<Website>) => {
     const websiteIndex = this.websites.findIndex(w => w._id === id);
-    this.websites[websiteIndex] = { ...this.websites[websiteIndex], ...patchValue };
+    this.websites[websiteIndex] = { ...this.websites[websiteIndex], ...website };
 
-    await patchWebsiteApi(id, patchValue);
+    await patchWebsiteApi(id, website);
   };
 
   public removeWebsite = async (websiteId: string) => {
