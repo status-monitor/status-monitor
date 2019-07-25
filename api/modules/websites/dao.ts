@@ -18,26 +18,24 @@ export const findOneWebsiteById = async (id: string): Promise<Website> => {
 export const insertOneWebsite = async (website: Website): Promise<Website> => {
   await mongo.waitReady();
   const response = await mongo.db.collection('websites').insertOne({
+    ...website,
     createdAt: new Date(),
-    host: website.host,
-    name: website.name,
-    path: website.path,
-    protocol: website.protocol,
-    scenarioId: new ObjectID(website.scenarioId),
     isAlive: true,
+    scenarioId: new ObjectID(website.scenarioId),
   });
   return response.ops[0];
 };
 
 export const patchOneWebsite = async (_id: string, website: Partial<Website>): Promise<void> => {
   await mongo.waitReady();
+  const patchObject: any = { ...website };
+  if (website.scenarioId) {
+    patchObject.scenarioId = new ObjectID(website.scenarioId);
+  }
   await mongo.db.collection('websites').updateOne(
     { _id: new ObjectId(_id) },
     {
-      $set: {
-        ...website,
-        scenarioId: new ObjectID(website.scenarioId),
-      },
+      $set: patchObject,
     },
   );
 };

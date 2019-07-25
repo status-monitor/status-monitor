@@ -4,17 +4,19 @@ import { Website } from '@common/models/website';
 import { sendSlackMessage } from './slack';
 
 export const notifySlack = async (settings: Settings, isAlive: boolean, website: Website): Promise<void> => {
-  if (isAlive) {
-    sendSlackMessage(settings.slack.webhookUrl, settings.slack.channel, `\`${website.name}\` is back online.`);
-  } else {
-    sendSlackMessage(settings.slack.webhookUrl, settings.slack.channel, `\`${website.name}\` is offline !`);
+  const message = isAlive ? `\`${website.name}\` is back online.` : `\`${website.name}\` is offline !`;
+
+  if (!settings || !settings.slack || !settings.slack.channel || !settings.slack.webhookUrl) {
+    console.log(message);
+    return;
   }
+
+  const { channel, webhookUrl } = settings.slack;
+  sendSlackMessage(webhookUrl, channel, message);
 };
 
 export const notifyStatusChange = async (isAlive: boolean, website: Website): Promise<void> => {
   const settings = await findOneSettings();
 
-  if (settings.slack.webhookUrl) {
-    notifySlack(settings, isAlive, website);
-  }
+  notifySlack(settings, isAlive, website);
 };
