@@ -9,24 +9,12 @@ export const getWebsitesApi = async (): Promise<{ websites: Website[] }> => {
 };
 
 export const postWebsiteApi = async (website: Website): Promise<{ website: Website }> => {
-  const res = await axios.post(`${api.baseUrl}/api/websites`, {
-    host: website.host,
-    name: website.name,
-    path: website.path,
-    protocol: website.protocol,
-    scenarioId: website.scenarioId,
-  });
+  const res = await axios.post(`${api.baseUrl}/api/websites`, website);
   return res.data;
 };
 
-export const patchWebsiteApi = async (id: string, website: Website): Promise<void> => {
-  await axios.patch(`${api.baseUrl}/api/websites/${id}`, {
-    host: website.host,
-    name: website.name,
-    path: website.path,
-    protocol: website.protocol,
-    scenarioId: website.scenarioId,
-  });
+export const patchWebsiteApi = async (id: string, website: Partial<Website>): Promise<void> => {
+  await axios.patch(`${api.baseUrl}/api/websites/${id}`, website);
 };
 
 export const deleteWebsiteApi = async (websiteId: string): Promise<void> => {

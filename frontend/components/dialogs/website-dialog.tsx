@@ -3,10 +3,11 @@ import { Dialog, DialogFooter, DialogHeader, DialogBody } from '@app/shared/dial
 import { Button } from '@app/shared/button';
 import { Input } from '@app/shared/form/input';
 import { Flex } from '@app/shared/flex';
-import { Website } from '@common/models/website';
+import { Website, httpMethods } from '@common/models/website';
 import { Select } from '@app/shared/form/select';
 import { useFormValue } from '@app/shared/form/hooks';
 import { useScenariosStore } from '@app/stores';
+import { JsonTextarea } from '@app/shared/form/json-textarea';
 
 interface WebsiteDialogProps {
   website?: Website;
@@ -23,20 +24,23 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = memo(
     const [protocol, bindProtocol] = useFormValue<Website['protocol']>(website ? website.protocol : 'http');
     const [host, bindHost] = useFormValue<string>(website ? website.host : '');
     const [scenarioId, bindScenarioId] = useFormValue<string>(website ? website.scenarioId : '');
+    const [method, bindMethod] = useFormValue<Website['httpParameters']['method']>(
+      website ? website.httpParameters && website.httpParameters.method : 'GET',
+    );
+    const [data, bindData] = useFormValue<Website['httpParameters']['data']>(
+      website ? website.httpParameters && website.httpParameters.data : '',
+    );
 
-    const closeDialog = useCallback(() => onClose({ name, path, protocol, host, scenarioId }), [
-      host,
-      name,
-      onClose,
-      path,
-      protocol,
-      scenarioId,
-    ]);
+    const closeDialog = useCallback(
+      () => onClose({ name, path, protocol, host, scenarioId, httpParameters: { method, data } }),
+      [data, host, method, name, onClose, path, protocol, scenarioId],
+    );
 
     const scenarios = useMemo(
       () => scenariosStore.scenarios.map(scenario => ({ label: scenario.name, value: scenario._id })),
       [scenariosStore.scenarios],
     );
+    const httpOptions = useMemo(() => httpMethods.map(v => ({ label: v, value: v })), []);
 
     return (
       <Dialog isOpen={open} onClose={onClose}>
@@ -51,6 +55,8 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = memo(
           <Input label="Host" {...bindHost} />
           <Input label="Path" {...bindPath} />
           <Select options={scenarios} label="Scenario" {...bindScenarioId} />
+          <Select options={httpOptions} label="Http Method" {...bindMethod} />
+          {method !== 'GET' && <JsonTextarea label="Http JSON parameters" {...bindData} />}
         </DialogBody>
         <DialogFooter>
           <Flex />

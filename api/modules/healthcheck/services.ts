@@ -9,18 +9,17 @@ import { getAwsClient, LambdaFunctionName } from '../aws/services';
 import { getUniqueStringFromZone } from '@common/utils/zone';
 
 export const checkWebsite = async (website: Website, zone: ScenarioZone): Promise<boolean> => {
-  const websiteUrl = getWebsiteUrl(website);
   const zoneId = getUniqueStringFromZone(zone);
   try {
     const healthCheck =
       zone.type === 'aws'
         ? await awsCallCheck(website.protocol, website.host, website.path, zone.id)
-        : await httpCallCheck(websiteUrl);
+        : await httpCallCheck(website);
     if (healthCheck.status !== 200) {
       throw new Error(`${healthCheck.status}`);
     }
     writeHealthcheckStatus({ website: website._id, zoneId, isAlive: 1, duration: healthCheck.ms });
-    console.log(healthCheck);
+    console.log(getWebsiteUrl(website), healthCheck);
     return true;
   } catch (e) {
     console.log(e.message);
@@ -29,11 +28,23 @@ export const checkWebsite = async (website: Website, zone: ScenarioZone): Promis
   }
 };
 
-export const httpCallCheck = async (url: string): Promise<{ status: number; ms: number }> => {
+export const httpCallCheck = async (website: Website): Promise<{ status: number; ms: number }> => {
+  const url = getWebsiteUrl(website);
   const startTime = new Date().getTime();
+
+  // @ts-ignore
+  const { method, data } = website.httpParameters || {};
+  let json;
+  if (data) {
+    try {
+      json = JSON.parse(data);
+    } catch {}
+  }
   const res = await request({
+    method: method || 'GET',
+    json,
     url,
-    strictSSL: url.indexOf('https://') === 0,
+    strictSSL: website.protocol === 'https',
     resolveWithFullResponse: true,
   });
 
