@@ -17,7 +17,8 @@
 - Allow to define multiple scenarios per website tested. For example, you can test a website from 2 zones every 5 seconds, and check the response from more than all available zones, every minute. It means by using AWS Lambda, you can easily have a free multi-zone healthcheck tool!
 - Uses influxDb database - fully integrated with Grafana.
 
-* Planned (PRs welcomed) *
+#### Planned (PRs welcomed)
+
 - Support for equivalent of AWS Lambda (Google Cloud Functions, Azure functions)
 - Support for other notification services (Telegram, twilio, hipchat, etc...)
 - Grafana dashboards
@@ -28,7 +29,7 @@
 
 Installing the [helm chart](https://github.com/status-monitor/charts) will install Status Monitor, MongoDB, InfluxDB and RabbitMQ.
 
-`helm repo index --url https://status-monitor.github.io/charts ../charts`
+`helm repo add status-monitor https://status-monitor.github.io/charts`
 
 `helm upgrade --namespace status-monitor status-monitor status-monitor/status-monitor --set encryptionKey=XXXXX --install`
 

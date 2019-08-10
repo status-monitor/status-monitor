@@ -1,6 +1,6 @@
 {
-  "name": "bdd",
-  "version": "0.1.0",
+  "name": "status-monitor",
+  "version": "0.2.0",
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
