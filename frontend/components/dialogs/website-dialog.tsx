@@ -2,6 +2,7 @@ import React, { ReactElement, memo, useCallback, useMemo } from 'react';
 import { Dialog, DialogFooter, DialogHeader, DialogBody } from '@app/shared/dialog';
 import { Button } from '@app/shared/button';
 import { Input } from '@app/shared/form/input';
+import { Checkbox } from '@app/shared/form/checkbox';
 import { Flex } from '@app/shared/flex';
 import { Website, httpMethods } from '@common/models/website';
 import { Select } from '@app/shared/form/select';
@@ -30,10 +31,14 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = memo(
     const [data, bindData] = useFormValue<Website['httpParameters']['data']>(
       website ? website.httpParameters && website.httpParameters.data : '',
     );
+    const [notificationsDisabled, bindNotificationsDisabled] = useFormValue<Website['notificationsDisabled']>(
+      website ? website.notificationsDisabled : false,
+    );
 
     const closeDialog = useCallback(
-      () => onClose({ name, path, protocol, host, scenarioId, httpParameters: { method, data } }),
-      [data, host, method, name, onClose, path, protocol, scenarioId],
+      () =>
+        onClose({ name, path, protocol, host, scenarioId, notificationsDisabled, httpParameters: { method, data } }),
+      [data, host, method, name, notificationsDisabled, onClose, path, protocol, scenarioId],
     );
 
     const scenarios = useMemo(
@@ -57,6 +62,7 @@ export const WebsiteDialog: React.FC<WebsiteDialogProps> = memo(
           <Select options={scenarios} label="Scenario" {...bindScenarioId} />
           <Select options={httpOptions} label="Http Method" {...bindMethod} />
           {method !== 'GET' && <JsonTextarea label="Http JSON parameters" {...bindData} />}
+          <Checkbox label="Notifications disabled" {...bindNotificationsDisabled} />
         </DialogBody>
         <DialogFooter>
           <Flex />

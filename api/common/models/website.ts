@@ -8,6 +8,7 @@ export interface Website {
   host: string;
   path: string;
   name: string;
+  notificationsDisabled?: boolean;
   httpParameters?: {
     method: HttpMethod;
     data?: string;

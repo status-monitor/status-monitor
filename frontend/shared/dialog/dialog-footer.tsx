@@ -8,7 +8,7 @@ const DialogFooterDiv = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: ${rem(30)} ${dialogXPadding};
+  padding: ${rem(20)} ${dialogXPadding};
   display: flex;
   flex-direction: row;
   box-sizing: content-box;

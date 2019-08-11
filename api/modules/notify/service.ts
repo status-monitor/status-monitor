@@ -18,5 +18,9 @@ export const notifySlack = async (settings: Settings, isAlive: boolean, website:
 export const notifyStatusChange = async (isAlive: boolean, website: Website): Promise<void> => {
   const settings = await findOneSettings();
 
+  if (website.notificationsDisabled) {
+    return;
+  }
+
   notifySlack(settings, isAlive, website);
 };
