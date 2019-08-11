@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Website } from '@common/models/website';
-import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { HealthCheckStatusFields } from '@common/models/healthcheck-status';
 import { api } from './api';
 
 export const getWebsitesApi = async (): Promise<{ websites: Website[] }> => {
@@ -22,7 +22,7 @@ export const deleteWebsiteApi = async (websiteId: string): Promise<void> => {
   return res.data;
 };
 
-export const getInfluxApi = async (websiteId: string): Promise<HealthCheckStatus[]> => {
+export const getInfluxApi = async (websiteId: string): Promise<HealthCheckStatusFields[]> => {
   const res = await axios.get(`${api.baseUrl}/api/websites/${websiteId}/statuses`);
   return res.data && res.data.statuses;
 };

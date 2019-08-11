@@ -7,14 +7,12 @@ class InfluxDb {
     database: config.influxDb.database,
     schema: [
       {
-        measurement: 'status_checks',
+        measurement: 'statusChecks',
         fields: {
-          website: Influx.FieldType.STRING,
           isAlive: Influx.FieldType.INTEGER,
           duration: Influx.FieldType.FLOAT,
-          zoneId: Influx.FieldType.STRING,
         },
-        tags: ['host'],
+        tags: ['websiteId', 'zoneId'],
       },
     ],
   });

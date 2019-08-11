@@ -1,13 +1,13 @@
 import React, { ReactElement, FunctionComponent, memo } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { green, backgroundColor } from '@app/styles/variables';
-import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { HealthCheckStatusFields } from '@common/models/healthcheck-status';
 import moment from 'moment';
 import { Card } from '@app/shared/card';
 import { Container } from '@app/shared/container';
 
 interface DurationsChartProps {
-  data: HealthCheckStatus[];
+  data: HealthCheckStatusFields[];
 }
 
 export const DurationsChart: FunctionComponent<DurationsChartProps> = memo(

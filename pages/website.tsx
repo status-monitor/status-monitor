@@ -9,7 +9,7 @@ import { WebsiteDialog } from '@app/components/dialogs/website-dialog';
 import { useDialog } from '@app/shared/dialog';
 import { Flex, FlexRow } from '@app/shared/flex';
 import { getInfluxApi } from '@app/api/website';
-import { HealthCheckStatus } from '@common/models/healthcheck-status';
+import { HealthCheckStatusFields } from '@common/models/healthcheck-status';
 import { DurationsChart } from '@app/components/graph/durations-chart';
 
 interface WebsitePageProps {
@@ -20,7 +20,7 @@ const WebsitePage: StatelessPage<WebsitePageProps> = ({ id }): ReactElement => {
   const websitesStore = useWebsitesStore();
   const confirmStore = useConfirmStore();
   const [websiteDialogOpen, openWebsiteDialog, onCloseWebsiteDialog] = useDialog();
-  const [data, setData] = useState<HealthCheckStatus[]>();
+  const [data, setData] = useState<HealthCheckStatusFields[]>();
 
   const website = websitesStore.websites.find(w => w._id === id);
 

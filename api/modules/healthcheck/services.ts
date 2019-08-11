@@ -18,12 +18,12 @@ export const checkWebsite = async (website: Website, zone: ScenarioZone): Promis
     if (healthCheck.status !== 200) {
       throw new Error(`${healthCheck.status}`);
     }
-    writeHealthcheckStatus({ website: website._id, zoneId, isAlive: 1, duration: healthCheck.ms });
+    writeHealthcheckStatus({ isAlive: 1, duration: healthCheck.ms }, { websiteId: website._id, zoneId });
     console.log(getWebsiteUrl(website), healthCheck);
     return true;
   } catch (e) {
     console.log(e.message);
-    writeHealthcheckStatus({ website: website._id, zoneId, isAlive: 0 });
+    writeHealthcheckStatus({ isAlive: 0 }, { websiteId: website._id, zoneId });
     return false;
   }
 };
