@@ -8,7 +8,7 @@ encryptionKey: pQQ8UU4rkNLr9i.wHcM-gEPKz6PkJ
 
 image:
   repository: statusmonitor/website
-  tag: 0.4.0
+  tag: 0.5.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
