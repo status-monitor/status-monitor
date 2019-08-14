@@ -1,12 +1,14 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/b862d062fd6bb4174ba0/maintainability)](https://codeclimate.com/github/Mokto/status-monitor/maintainability)
+<h1 align="center">Status Monitor</h1>
+<h3 align="center">A powerful up/down status monitor tool</h3>
 
-[![CircleCI](https://circleci.com/gh/status-monitor/status-monitor.svg?style=svg)](https://circleci.com/gh/status-monitor/status-monitor)
-
-
-# Status Monitor
-
-<img width="877" alt="Home" src="https://user-images.githubusercontent.com/5103928/61823613-6c608580-ae5c-11e9-84bb-ec11bd23d244.png">
-<img width="1035" alt="Website details" src="https://user-images.githubusercontent.com/5103928/61823614-6cf91c00-ae5c-11e9-9bd8-c1cb46e0f5d9.png">
+<p align="center">
+    <a href="https://codeclimate.com/github/Mokto/status-monitor/maintainability"><img src="https://api.codeclimate.com/v1/badges/b862d062fd6bb4174ba0/maintainability" alt="Maintainability" /></a>
+    <a href="https://circleci.com/gh/status-monitor/status-monitor"><img src="https://circleci.com/gh/status-monitor/status-monitor.svg?style=svg" alt="CircleCI" /></a>
+    <br /><br />
+    <img width="877" alt="Home" src="https://user-images.githubusercontent.com/5103928/61823613-6c608580-ae5c-11e9-84bb-ec11bd23d244.png">
+    <br />
+    <img width="1035" alt="Website details" src="https://user-images.githubusercontent.com/5103928/61823614-6cf91c00-ae5c-11e9-9bd8-c1cb46e0f5d9.png">
+</p>
 
 
 ## Functionalities
@@ -15,13 +17,13 @@
 - Get a Slack notification if something is wrong
 - Allows to run any HTTP method and to pass some data in the body of the request
 - AWS lambda support : set up your AWS credentials to run your healthcheck from multiple locations (16 availables).
-- Allow to define multiple scenarios per website tested. For example, you can test a website from 2 zones every 5 seconds, and check the response from more than all available zones, every minute. It means by using AWS Lambda, you can easily have a free multi-zone healthcheck tool!
+- Allow to define multiple scenarios per website tested. For example, you can test a website from 2 zones every 5 seconds, and check the response from every continent, every minute. It means by using AWS Lambda, you can easily have a free multi-zone healthcheck tool!
 - Uses influxDb database - fully integrated with Grafana.
 
 #### Planned (PRs welcomed)
 
 - Support for equivalent of AWS Lambda (Google Cloud Functions, Azure functions)
-- Support for other notification services (Telegram, twilio, hipchat, etc...)
+- Support for other notification services (Telegram, Twilio, Hipchat, etc...)
 - Grafana dashboards
 
 ## Installation
