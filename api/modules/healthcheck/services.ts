@@ -8,7 +8,7 @@ import { AwsZone } from '../aws/models';
 import { getAwsClient, LambdaFunctionName } from '../aws/services';
 import { getUniqueStringFromZone } from '@common/utils/zone';
 
-export const checkWebsite = async (website: Website, zone: ScenarioZone): Promise<boolean> => {
+export const checkWebsite = async (website: Website, zone: ScenarioZone): Promise<true | string> => {
   const zoneId = getUniqueStringFromZone(zone);
   try {
     const healthCheck =
@@ -27,7 +27,7 @@ export const checkWebsite = async (website: Website, zone: ScenarioZone): Promis
   } catch (e) {
     console.log(e.message);
     writeHealthcheckStatus({ isAlive: 0 }, { websiteId: website._id, websiteName: website.name, zoneId });
-    return false;
+    return e.message;
   }
 };
 

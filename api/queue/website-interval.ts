@@ -34,12 +34,16 @@ const listen = async (): Promise<void> => {
           return;
         }
         const isAliveCalls = await Promise.all(scenario.zones.map(zone => checkWebsite(website, zone)));
-        const isAlive = isAliveCalls.every(call => !!call);
+        const isAlive = isAliveCalls.every(call => call === true);
+        let reason: string;
+        if (!isAlive) {
+          reason = isAliveCalls.find(call => call !== true) as string;
+        }
         if (website.isAlive !== isAlive) {
           patchOneWebsite(website._id, {
             isAlive,
           });
-          notifyStatusChange(isAlive, website);
+          notifyStatusChange(isAlive, website, reason);
         }
       };
 
