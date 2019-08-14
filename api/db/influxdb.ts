@@ -12,7 +12,7 @@ class InfluxDb {
           isAlive: Influx.FieldType.INTEGER,
           duration: Influx.FieldType.FLOAT,
         },
-        tags: ['websiteId', 'zoneId'],
+        tags: ['websiteId', 'zoneId', 'websiteName'],
       },
     ],
   });

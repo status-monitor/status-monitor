@@ -6,6 +6,7 @@ export interface HealthCheckStatusFields {
 
 export interface HealthCheckStatusTags {
   websiteId: string;
+  websiteName: string;
   zoneId: string;
   [key: string]: string;
 }
