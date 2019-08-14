@@ -24,7 +24,7 @@ export const getLastHealthcheckStatus = async (websiteId: string): Promise<Healt
 export const getLastFailedHealthcheckStatus = async (websiteId: string): Promise<HealthCheckStatusFields> => {
   const results = await influxDb.db.query(`
   select * from status_checks
-  where websiteId = '${websiteId}' and isAlive = false
+  where websiteId = '${websiteId}' and isAlive = 0
   order by time desc
   limit 1
  `);
