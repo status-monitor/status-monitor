@@ -13,6 +13,7 @@
 
 - Run healthchecks at a defined interval (5s, 10s, 30s, etc...)
 - Get a Slack notification if something is wrong
+- Allows to run any HTTP method and to pass some data in the body of the request
 - AWS lambda support : set up your AWS credentials to run your healthcheck from multiple locations (16 availables).
 - Allow to define multiple scenarios per website tested. For example, you can test a website from 2 zones every 5 seconds, and check the response from more than all available zones, every minute. It means by using AWS Lambda, you can easily have a free multi-zone healthcheck tool!
 - Uses influxDb database - fully integrated with Grafana.
