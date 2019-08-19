@@ -28,11 +28,13 @@
 ## What the heck with AWS Lambda ?
 
 Well, first AWS lambda allows you to run your health checks from all around the world.
-Second, with AWS Lambda free tier available on all customers indefinitely, you can have your health checks for free ! 
+Second, with AWS Lambda [free tier available](https://aws.amazon.com/lambda/pricing/) on all customers indefinitely, you can have your health checks for free ! 
 Let's see a common scenario :
 
 - Test google.com from 2 different locations every 5 seconds. It means you can have really fast notifications about your website/service being down. (~520 000 calls per month)
 - Test google.com from 10 different locations every minute. It means you can have reliable health checks and response times from all around the world. (~440 000 calls per month)
+
+Status Monitor runs Lambda functions with 128mb memory, so you can have this for free.
 
 ## Installation
 
