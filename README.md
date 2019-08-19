@@ -13,18 +13,26 @@
 
 ## Functionalities
 
-- Run healthchecks at a defined interval (5s, 10s, 30s, etc...)
-- Get a Slack notification if something is wrong
-- Allows to run any HTTP method and to pass some data in the body of the request
-- AWS lambda support : set up your AWS credentials to run your healthcheck from multiple locations (16 availables).
-- Allow to define multiple scenarios per website tested. For example, you can test a website from 2 zones every 5 seconds, and check the response from every continent, every minute. It means by using AWS Lambda, you can easily have a free multi-zone healthcheck tool!
-- Uses influxDb database - fully integrated with Grafana.
+- Runs health checks at a defined interval (5s, 10s, 30s, etc...)
+- Gets a Slack notification if anything goes wrong
+- Allows to run any HTTP method and to pass some data in the request's body
+- AWS lambda support : set up your AWS credentials to run your health check from multiple locations (16 available).
+- Uses InfluxDb database - therefore fully integrated with Grafana.
 
 #### Planned (PRs welcomed)
 
 - Support for equivalent of AWS Lambda (Google Cloud Functions, Azure functions)
 - Support for other notification services (Telegram, Twilio, Hipchat, etc...)
 - Grafana dashboards
+
+## What the heck with AWS Lambda ?
+
+Well, first AWS lambda allows you to run your health checks from all around the world.
+Second, with AWS Lambda free tier available on all customers indefinitely, you can have your health checks for free ! 
+Let's see a common scenario :
+
+- Test google.com from 2 different locations every 5 seconds. It means you can have really fast notifications about your website/service being down. (~520 000 calls per month)
+- Test google.com from 10 different locations every minute. It means you can have reliable health checks and response times from all around the world. (~440 000 calls per month)
 
 ## Installation
 
@@ -49,8 +57,8 @@ Status Monitor will be available on port 3000.
 ## Configuration
 
 If you go to the settings tabs, you can configure :
-- the [slack webhook](https://api.slack.com/incoming-webhooks).
-- An AWS access and secret (will be encrypted in your database) : will allow Lambda Functions creation and execution. For that you can create an AWS user with the following policy :
+- The [slack webhook](https://api.slack.com/incoming-webhooks).
+- The AWS access and secret (encrypted in your database) will allow Lambda Functions to be created and executed. To this end, you can create an AWS user with the following policy :
 ```
 {
     "Version": "2012-10-17",
