@@ -57,5 +57,7 @@ mongodb:
 rabbitmq-ha:
   rabbitmqUsername: guest
   rabbitmqPassword: guest
+  forceBoot: true
+  replicaCount: 2
   persistentVolume:
     enabled: true
