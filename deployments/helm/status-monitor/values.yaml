@@ -51,12 +51,13 @@ affinity: {}
 
 mongodb:
   usePassword: false
-  replicaSet:
-    enabled: true
+  # replicaSet:
+  #   enabled: true
 
 rabbitmq-ha:
   rabbitmqUsername: guest
   rabbitmqPassword: guest
+  rabbitmqErlangCookie: HtQ0FMfdtENdMGnQEygV8yHUiKrrZJCh
   forceBoot: true
   replicaCount: 2
   persistentVolume:
