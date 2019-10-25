@@ -7,6 +7,7 @@ import { ScenarioZone } from '@common/models/scenario';
 import { AwsZone } from '../aws/models';
 import { getAwsClient, LambdaFunctionName } from '../aws/services';
 import { getUniqueStringFromZone } from '@common/utils/zone';
+import { waitForRandomTime } from '@api/utils/random';
 
 export const checkWebsite = async (website: Website, zone: ScenarioZone): Promise<true | string> => {
   const zoneId = getUniqueStringFromZone(zone);
@@ -31,31 +32,42 @@ export const checkWebsite = async (website: Website, zone: ScenarioZone): Promis
   }
 };
 
-export const httpCallCheck = async (website: Website): Promise<{ status: number; ms: number }> => {
-  const url = getWebsiteUrl(website);
-  const startTime = new Date().getTime();
+export const httpCallCheck = async (
+  website: Website,
+  numberOfFailedCalls = 0,
+): Promise<{ status: number; ms: number }> => {
+  try {
+    const url = getWebsiteUrl(website);
+    const startTime = new Date().getTime();
 
-  // @ts-ignore
-  const { method, data } = website.httpParameters || {};
-  let json;
-  if (data) {
-    try {
-      json = JSON.parse(data);
-    } catch {}
+    // @ts-ignore
+    const { method, data } = website.httpParameters || {};
+    let json;
+    if (data) {
+      try {
+        json = JSON.parse(data);
+      } catch {}
+    }
+    const res = await request({
+      method: method || 'GET',
+      json,
+      url,
+      strictSSL: website.protocol === 'https',
+      resolveWithFullResponse: true,
+    });
+
+    const endTime = new Date().getTime();
+    return {
+      status: res.statusCode,
+      ms: endTime - startTime,
+    };
+  } catch (e) {
+    if (numberOfFailedCalls === 2) {
+      await waitForRandomTime(1);
+      return httpCallCheck(website, numberOfFailedCalls + 1);
+    }
+    throw e;
   }
-  const res = await request({
-    method: method || 'GET',
-    json,
-    url,
-    strictSSL: website.protocol === 'https',
-    resolveWithFullResponse: true,
-  });
-
-  const endTime = new Date().getTime();
-  return {
-    status: res.statusCode,
-    ms: endTime - startTime,
-  };
 };
 
 export const awsCallCheck = async (
