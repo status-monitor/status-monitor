@@ -33,7 +33,7 @@
     "moment": "2.24.0",
     "mongodb": "3.2.7",
     "next": "9.0.2",
-    "node-sass": "4.12.0",
+    "node-sass": "4.13.1",
     "normalize.css": "8.0.1",
     "react": "16.8.6",
     "react-ace": "7.0.2",
